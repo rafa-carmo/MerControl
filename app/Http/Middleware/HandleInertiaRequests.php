@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\File;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -37,6 +39,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
+        $file = lang_path(App::currentLocale() . ".json");
 
         return [
             ...parent::share($request),
@@ -46,6 +49,9 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+                     'locale' => App::currentLocale(),
+            'locales' => config('app.available_locales'),
+            'translations' => File::exists($file) ? File::json($file) : []
         ];
     }
 }

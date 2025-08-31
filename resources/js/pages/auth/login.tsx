@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
 import { request } from '@/routes/password';
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, usePage } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 
 interface LoginProps {
@@ -17,16 +17,17 @@ interface LoginProps {
 }
 
 export default function Login({ status, canResetPassword }: LoginProps) {
+    const { translations } = usePage().props;
     return (
-        <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
-            <Head title="Log in" />
+        <AuthLayout title={translations["Welcome back"]} description={translations["Type your email and password below to access your account"]}>
+            <Head title={translations["Access your account"]} />
 
             <Form {...AuthenticatedSessionController.store.form()} resetOnSuccess={['password']} className="flex flex-col gap-6">
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email">{translations["Email address"]}</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -35,17 +36,17 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     autoFocus
                                     tabIndex={1}
                                     autoComplete="email"
-                                    placeholder="email@example.com"
+                                    placeholder="email@email.com"
                                 />
                                 <InputError message={errors.email} />
                             </div>
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
+                                    <Label htmlFor="password">{translations["Password"]}</Label>
                                     {canResetPassword && (
                                         <TextLink href={request()} className="ml-auto text-sm" tabIndex={5}>
-                                            Forgot password?
+                                            {translations["Forgot password"]}?
                                         </TextLink>
                                     )}
                                 </div>
@@ -56,26 +57,26 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     required
                                     tabIndex={2}
                                     autoComplete="current-password"
-                                    placeholder="Password"
+                                    placeholder={translations["Password"]}
                                 />
                                 <InputError message={errors.password} />
                             </div>
 
                             <div className="flex items-center space-x-3">
                                 <Checkbox id="remember" name="remember" tabIndex={3} />
-                                <Label htmlFor="remember">Remember me</Label>
+                                <Label htmlFor="remember">{translations["Remember me"]}</Label>
                             </div>
 
                             <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
                                 {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                                Log in
+                                {translations["Log in"]}
                             </Button>
                         </div>
 
-                        <div className="text-center text-sm text-muted-foreground">
-                            Don't have an account?{' '}
+                        <div className="text-center text-sm text-muted-foreground space-x-2">
+                            <span>{translations["Don't have an account?"]}</span>
                             <TextLink href={register()} tabIndex={5}>
-                                Sign up
+                                {translations["Sign up"]}
                             </TextLink>
                         </div>
                     </>
