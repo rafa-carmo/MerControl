@@ -201,5 +201,7 @@
 
   "Purchases": "Compras",
   "View Purchases": "Visualizar Compras",
-  "Add Purchase": "Adicionar Compra"
+  "Add Purchase": "Adicionar Compra",
+  "Edit Purchase": "Editar Compra",
+  "Delete Purchase": "Deletar Compra"
 }

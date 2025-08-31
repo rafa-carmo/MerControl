@@ -1,3 +1,4 @@
+import { useTrans } from '@/composables/translate';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type BreadcrumbItem } from '@/types';
 import { type ReactNode } from 'react';
@@ -8,7 +9,12 @@ interface AppLayoutProps {
 }
 
 export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => (
-    <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
+    <AppLayoutTemplate breadcrumbs={breadcrumbs?.map((item) => (
+        {
+            title: useTrans(item.title),
+            href: item.href
+        }
+    ))} {...props}>
         {children}
     </AppLayoutTemplate>
 );
