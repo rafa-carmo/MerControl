@@ -7,7 +7,7 @@ export interface Auth {
 
 export interface BreadcrumbItem {
     title: string;
-    href: string;
+    href?: string;
 }
 
 export interface NavGroup {
@@ -17,9 +17,10 @@ export interface NavGroup {
 
 export interface NavItem {
     title: string;
-    href: NonNullable<InertiaLinkProps['href']>;
+    href?: NonNullable<InertiaLinkProps['href']>;
     icon?: LucideIcon | null;
     isActive?: boolean;
+    subitems?: NavItem[];
 }
 
 export interface SharedData {

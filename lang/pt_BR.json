@@ -41,7 +41,7 @@
   "Created.": "Criado.",
   "Current Password": "Senha Atual",
   "Current password": "Senha Atual",
-  "Dashboard": "Painel de controle",
+  "Dashboard": "Dashboard",
   "Delete": "Deletar",
   "Delete API Token": "Deletar o Token de API",
   "Delete Account": "Deletar Conta",
@@ -197,5 +197,9 @@
   "Ensure your account is using a long, random password to stay secure": "Certifique-se de que sua conta esteja usando uma senha longa e aleatória para permanecer segura",
   "Log in to your account": "Entrar na sua conta",
   "Enter your email and password below to log in": "Digite seu e-mail e senha abaixo para entrar",
-  "Don't have an account?": "Não tem uma conta?"
+  "Don't have an account?": "Não tem uma conta?",
+
+  "Purchases": "Compras",
+  "View Purchases": "Visualizar Compras",
+  "Add Purchase": "Adicionar Compra"
 }

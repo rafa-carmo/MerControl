@@ -5,8 +5,10 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, ShoppingCart } from 'lucide-react';
 import AppLogo from './app-logo';
+
+
 
 const mainNavItems: NavItem[] = [
     {
@@ -14,6 +16,21 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Purchases',
+        icon: ShoppingCart,
+        subitems: [
+            {
+                title: 'View Purchases',
+                href: "#",
+            },
+            {
+                title: 'Add Purchase',
+                href: "#",
+
+            },
+        ],
+    }
 ];
 
 const footerNavItems: NavItem[] = [

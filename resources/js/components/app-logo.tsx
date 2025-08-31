@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import AppLogoIcon from './app-logo-icon';
 
 export default function AppLogo() {
@@ -7,7 +8,7 @@ export default function AppLogo() {
                 <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
             </div>
             <div className="ml-1 grid flex-1 text-left text-sm">
-                <span className="mb-0.5 truncate leading-tight font-semibold">Laravel Starter Kit</span>
+                <span className="mb-0.5 truncate leading-tight font-semibold">{usePage().props.name}</span>
             </div>
         </>
     );
