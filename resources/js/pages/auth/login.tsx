@@ -5,11 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useTrans } from '@/composables/translate';
+import { trans } from '@/composables/translate';
 import AuthLayout from '@/layouts/auth-layout';
 import { register } from '@/routes';
 import { request } from '@/routes/password';
-import { Form, Head, usePage } from '@inertiajs/react';
+import { Form, Head } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 
 interface LoginProps {
@@ -20,15 +20,15 @@ interface LoginProps {
 export default function Login({ status, canResetPassword }: LoginProps) {
 
     return (
-        <AuthLayout title={useTrans("Welcome back")} description={useTrans("Type your email and password below to access your account")}>
-            <Head title={useTrans("Access your account")} />
+        <AuthLayout title={trans("Welcome back")} description={trans("Type your email and password below to access your account")}>
+            <Head title={trans("Access your account")} />
 
             <Form {...AuthenticatedSessionController.store.form()} resetOnSuccess={['password']} className="flex flex-col gap-6">
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">{useTrans("Email address")}</Label>
+                                <Label htmlFor="email">{trans("Email address")}</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -44,10 +44,10 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
                             <div className="grid gap-2">
                                 <div className="flex items-center">
-                                    <Label htmlFor="password">{useTrans("Password")}</Label>
+                                    <Label htmlFor="password">{trans("Password")}</Label>
                                     {canResetPassword && (
                                         <TextLink href={request()} className="ml-auto text-sm" tabIndex={5}>
-                                            {useTrans("Forgot password")}?
+                                            {trans("Forgot password")}?
                                         </TextLink>
                                     )}
                                 </div>
@@ -58,26 +58,26 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                     required
                                     tabIndex={2}
                                     autoComplete="current-password"
-                                    placeholder={useTrans("Password")}
+                                    placeholder={trans("Password")}
                                 />
                                 <InputError message={errors.password} />
                             </div>
 
                             <div className="flex items-center space-x-3">
                                 <Checkbox id="remember" name="remember" tabIndex={3} />
-                                <Label htmlFor="remember">{useTrans("Remember me")}</Label>
+                                <Label htmlFor="remember">{trans("Remember me")}</Label>
                             </div>
 
                             <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
                                 {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                                {useTrans("Log in")}
+                                {trans("Log in")}
                             </Button>
                         </div>
 
                         <div className="text-center text-sm text-muted-foreground space-x-2">
-                            <span>{useTrans("Don't have an account?")}</span>
+                            <span>{trans("Don't have an account?")}</span>
                             <TextLink href={register()} tabIndex={5}>
-                                {useTrans("Sign up")}
+                                {trans("Sign up")}
                             </TextLink>
                         </div>
                     </>

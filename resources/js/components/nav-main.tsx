@@ -1,5 +1,5 @@
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { useTrans } from '@/composables/translate';
+import { trans } from '@/composables/translate';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 
@@ -8,7 +8,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
 
     return (
         <SidebarGroup className="px-2 py-0">
-            <SidebarGroupLabel>{useTrans('Platform')}</SidebarGroupLabel>
+            <SidebarGroupLabel>{trans('Platform')}</SidebarGroupLabel>
             <SidebarMenu>
                 {items.map((item) => {
                     if (item.href) return (
@@ -17,11 +17,11 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                             <SidebarMenuButton
                                 asChild
                                 isActive={page.url.startsWith(typeof item.href === 'string' ? item.href : item.href.url)}
-                                tooltip={{ children: useTrans(item.title) }}
+                                tooltip={{ children: trans(item.title) }}
                             >
                                 <Link href={item.href} prefetch>
                                     {item.icon && <item.icon />}
-                                    <span>{useTrans(item.title)}</span>
+                                    <span>{trans(item.title)}</span>
                                 </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
@@ -30,9 +30,9 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                         <div className='bg-primary/5 rounded-lg'>
                             <SidebarMenuButton
                                 asChild
-                                tooltip={{ children: useTrans(item.title) }}
+                                tooltip={{ children: trans(item.title) }}
                             >
-                                <span >{item.icon && <item.icon />} {useTrans(item.title)}</span>
+                                <span >{item.icon && <item.icon />} {trans(item.title)}</span>
                             </SidebarMenuButton>
                             <SidebarMenuItems items={item.subitems} />
                         </div>
@@ -59,17 +59,17 @@ function SidebarMenuItems({ items }: { items: NavItem[] }) {
                             <>
                                 <SidebarMenuButton
                                     asChild
-                                    tooltip={{ children: useTrans(subitem.title) }}
+                                    tooltip={{ children: trans(subitem.title) }}
                                     className=''
                                 >
-                                    <span>{useTrans(subitem.title)}</span>
+                                    <span>{trans(subitem.title)}</span>
                                 </SidebarMenuButton>
                                 <SidebarMenuItems items={subitem.subitems} />
                             </>
                         ) : (
                             <Link href={subitem.href} prefetch>
                                 {subitem.icon && <subitem.icon />}
-                                <span>{useTrans(subitem.title)}</span>
+                                <span>{trans(subitem.title)}</span>
                             </Link>
                         )}
                     </SidebarMenuButton>
