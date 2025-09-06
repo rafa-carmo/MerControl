@@ -19,15 +19,17 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import { trans } from "@/composables/translate"
 
 
-export function ComboboxDemo({ placeholder, handleCreate, items, value, setValue }:
+export function ComboboxDemo({ placeholder, handleCreate, items, value, setValue, label }:
     {
         placeholder: string,
         handleCreate?: (value: string) => void,
         items: { value: string, label: string }[],
         value: string,
-        setValue: (value: string) => void
+        setValue: (value: string) => void,
+        label?: string
     }) {
     const [open, setOpen] = React.useState(false)
 
@@ -41,7 +43,7 @@ export function ComboboxDemo({ placeholder, handleCreate, items, value, setValue
                     className="w-[200px] justify-between"
                 >
                     {value
-                        ? items.find((item) => item.value === value)?.label
+                        ? items.find((item) => item.label === label || item.value === value || item.value === label)?.label
                         : placeholder}
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
@@ -64,7 +66,7 @@ export function ComboboxDemo({ placeholder, handleCreate, items, value, setValue
                                     setValue("")
                                 }}
                             >
-                                Create "{value}"
+                                {trans("Create")} "{value}"
                             </Button>
                         </CommandEmpty>
                         <CommandGroup>

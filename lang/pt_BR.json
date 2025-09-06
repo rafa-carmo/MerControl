@@ -213,5 +213,31 @@
   "Product": "Produto",
   "Place": "Local",
 
-  "$ ": "R$ "
+  "$ ": "R$ ",
+  "Tag": "Tag",
+  "Tags": "Tags",
+  "Select a tag": "Selecione uma tag",
+  "Create a new tag": "Criar uma nova tag",
+  "No tags found": "Nenhuma tag encontrada",
+  "Create Tag": "Criar Tag",
+  "Tag created successfully": "Tag criada com sucesso",
+  "Tag deleted successfully": "Tag deletada com sucesso",
+  "Tag updated successfully": "Tag atualizada com sucesso",
+
+  "Date": "Data",
+    "Pick a date": "Escolha uma data",
+    "Select a place": "Selecione um local",
+
+    "No items added": "Nenhum item adicionado",
+    "Add Item": "Adicionar Item",
+    "Item name": "Nome do item",
+    "Item quantity": "Quantidade do item",
+    "Item price": "Preço do item",
+
+    "Select unity": "Selecione a unidade",
+    "Kilogram (kg)": "Quilograma (kg)",
+    "Gram (g)": "Grama (g)",
+    "Liter (l)": "Litro (l)",
+    "Milliliter (ml)": "Mililitro (ml)",
+    "Unit (unit)": "Unidade (un)"
 }

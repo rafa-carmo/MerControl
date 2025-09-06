@@ -2,6 +2,7 @@ import { trans } from '@/composables/translate';
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
 import { type BreadcrumbItem } from '@/types';
 import { type ReactNode } from 'react';
+import { Toaster } from "@/components/ui/sonner"
 
 interface AppLayoutProps {
     children: ReactNode;
@@ -16,5 +17,7 @@ export default ({ children, breadcrumbs, ...props }: AppLayoutProps) => (
         }
     ))} {...props}>
         {children}
+        <Toaster />
+
     </AppLayoutTemplate>
 );

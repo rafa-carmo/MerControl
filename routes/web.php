@@ -1,6 +1,5 @@
 <?php
 
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,6 +15,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Purchases
     Route::resource('purchases', \App\Http\Controllers\PurchaseController::class);
+
+    Route::post('tags/create/fetch', [\App\Http\Controllers\TagController::class, 'fetch_create'])->name('tags.create.fetch');
 });
 
 require __DIR__.'/settings.php';

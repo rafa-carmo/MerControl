@@ -111,6 +111,7 @@
         "paths": {
             "@/*": ["./resources/js/*"],
             "@assets/*": ["./resources/assets/*"],
+            "@types/*": ["./resources/types/*"]
         },
         "jsx": "react-jsx"
     },

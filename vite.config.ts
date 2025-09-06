@@ -24,7 +24,8 @@ export default defineConfig({
     resolve: {
         alias: [
             { find: "@", replacement: resolve(__dirname, "./resources/js") },
-            { find: "@assets", replacement: resolve(__dirname, "./resources/assets") }
+            { find: "@assets", replacement: resolve(__dirname, "./resources/assets") },
+            { find: "@types", replacement: resolve(__dirname, "./resources/types") },
         ]
     }
 });
