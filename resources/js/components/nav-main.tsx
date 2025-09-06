@@ -1,12 +1,11 @@
-import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { trans } from '@/composables/translate';
-import { type NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
-import { CommandDemo } from './global/search';
-import { Command, CommandGroup, CommandInput, CommandItem } from './ui/command';
+import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
+import { trans } from '@/composables/translate'
+import { type NavItem } from '@/types'
+import { Link, usePage } from '@inertiajs/react'
+import { Command, CommandGroup, CommandInput, CommandItem } from './ui/command'
 
 function HasSubitems({ has, href, children }: { has: boolean, href?: string, children: React.ReactNode }) {
-    console.log(href)
+
     if (has) {
         return <Link href={href} prefetch>{children}</Link>
     }

@@ -10,6 +10,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns"
+import InputCurrency from "@/components/currency-input";
+
 
 const breadcrumbs = [
     { title: "Dashboard", href: "/" },
@@ -18,8 +20,9 @@ const breadcrumbs = [
 ];
 
 type PurchaseItem = {
+    id: string
     name: string;
-    price: number;
+    price: string;
     unity: string;
 };
 
@@ -30,6 +33,7 @@ export default function Create() {
         date: new Date(),
         items: items,
     });
+    console.log(data, items)
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={trans("Add Purchase")} />
@@ -88,24 +92,28 @@ export default function Create() {
                             <div className="grid gap-2">
                                 <label className="font-medium">Items</label>
                                 <div className="space-y-2">
-                                    {items.length === 0 ? <p className="py-4 border border-primary/25 rounded-lg text-center">No items added</p> : items.map((item, index) => (
-                                        <div key={index} className="flex gap-2">
+                                    {items.length === 0 ? <p className="py-4 border border-primary/25 rounded-lg text-center">No items added</p> : items.map((item) => (
+                                        <div key={item.id} className="flex gap-2">
                                             <Input
                                                 type="text"
-                                                name={`items[${index}].name`}
+                                                name={`items[${item.id}].name`}
                                                 placeholder="Item name"
                                                 className="block flex-1 border rounded px-3 py-2"
                                                 required
                                             />
-                                            <Input
-                                                type="number"
-                                                name="items[0].price"
-                                                placeholder="Price"
-                                                className="block w-1/4 border rounded px-3 py-2"
-                                                required
-                                                min="0"
-                                                step="0.01"
+                                            <InputCurrency
+                                                id="input-example"
+                                                name="input-name"
+                                                placeholder="Please enter a number"
+                                                defaultValue={0}
+                                                decimalsLimit={2}
+                                                className="w-fit"
+                                                value={item.price.toString()}
+                                                onValueChange={(_, __, values) =>
+                                                    setItems(prev => prev.map(i => i.id === item.id ? { ...i, price: values?.value || '0' } : i))
+                                                }
                                             />
+
                                             <Select
                                                 name="items[0].unity"
                                                 required
@@ -141,7 +149,7 @@ export default function Create() {
                                         onClick={() => {
                                             setItems(prev => [
                                                 ...prev,
-                                                { name: "", price: 0, unity: "" }
+                                                { id: Date.now().toString(), name: "", price: '0', unity: "" }
                                             ]);
                                         }}
                                         className="mt-2"

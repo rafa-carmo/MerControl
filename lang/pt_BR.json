@@ -211,5 +211,7 @@
   "Actions": "Ações",
   "Quantity": "Quantidade",
   "Product": "Produto",
-  "Place": "Local"
+  "Place": "Local",
+
+  "$ ": "R$ "
 }
