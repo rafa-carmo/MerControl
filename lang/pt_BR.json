@@ -127,6 +127,7 @@
   "results": "resultados",
   "Role": "Função",
   "Save": "Salvar",
+    "Save password": "Salvar Senha",
   "Saved.": "Salvou",
   "Select A New Photo": "Selecione uma nova imagem",
   "Send Password Reset Link": "Enviar link para redefinir senha",
@@ -164,6 +165,13 @@
   "Unauthorized": "Não autorizado",
   "Update Password": "Atualizar a senha",
   "Update password": "Atualizar a senha",
+  "Warning": "Aviso",
+    "We won't ask for your password again for a few hours.": "Não pediremos sua senha novamente por algumas horas.",
+    "We recommend that you use a long, random password to stay secure.": "Recomendamos que você use uma senha longa e aleatória para permanecer seguro.",
+    "Please proceed with caution, this cannot be undone.": "Por favor, prossiga com cautela, isso não pode ser desfeito.",
+    "Once your account is deleted, all of its resources and data will also be permanently deleted.": "Uma vez que sua conta for excluída, todos os seus recursos e dados serão permanentemente excluídos.",
+    "Please enter your password to confirm you would like to permanently delete your account.": "Por favor, digite sua senha para confirmar que deseja excluir permanentemente sua conta.",
+
   "Update your account profile information and email address.": "Atualize as informações do perfil e o endereço de e-mail da sua conta.",
   "Update your account's profile information and email address.": "Atualize as informações do perfil da sua conta e o endereço de e-mail.",
   "Use a recovery code": "Use o código recuperado",
@@ -239,5 +247,8 @@
     "Gram (g)": "Grama (g)",
     "Liter (l)": "Litro (l)",
     "Milliliter (ml)": "Mililitro (ml)",
-    "Unit (unit)": "Unidade (un)"
+    "Unit (unit)": "Unidade (un)",
+
+    "Appearance settings": "Configurações de aparência",
+    "Update your account's appearance settings": "Atualize as configurações de aparência da sua conta"
 }
