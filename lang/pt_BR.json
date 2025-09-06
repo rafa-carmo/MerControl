@@ -203,5 +203,12 @@
   "View Purchases": "Visualizar Compras",
   "Add Purchase": "Adicionar Compra",
   "Edit Purchase": "Editar Compra",
-  "Delete Purchase": "Deletar Compra"
+  "Delete Purchase": "Deletar Compra",
+
+  "Purchase Date": "Data da Compra",
+  "Amount": "Valor",
+  "Actions": "Ações",
+  "Quantity": "Quantidade",
+  "Product": "Produto",
+  "Place": "Local"
 }
