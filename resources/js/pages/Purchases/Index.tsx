@@ -19,6 +19,8 @@ export default function PurchasesIndex() {
 
                 <PurchaseDataTable columns={columns} data={purchasesMock} />
             </div>
+
+
         </AppLayout>
     );
 }
