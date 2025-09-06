@@ -11,6 +11,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns"
 import InputCurrency from "@/components/currency-input";
+import { ComboboxDemo } from "@/components/global/FindOrCreate";
 
 
 const breadcrumbs = [
@@ -31,9 +32,9 @@ export default function Create() {
     const [data, setData] = useState({
         place: "",
         date: new Date(),
+        tag: "",
         items: items,
     });
-    console.log(data, items)
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={trans("Add Purchase")} />
@@ -88,7 +89,16 @@ export default function Create() {
                                 </div>
                             </div>
 
+                            <div className="grid gap-2">
+                                <label className="font-medium">Tag</label>
+                                <ComboboxDemo
+                                    placeholder="Select a tag"
+                                    items={[{ value: "tag1", label: "Tag 1" }, { value: "tag2", label: "Tag 2" }]}
+                                    value={data.tag}
+                                    setValue={(value) => setData(prev => ({ ...prev, tag: value }))}
+                                    handleCreate={(value) => alert(`Create tag: ${value}`)} />
 
+                            </div>
                             <div className="grid gap-2">
                                 <label className="font-medium">Items</label>
                                 <div className="space-y-2">

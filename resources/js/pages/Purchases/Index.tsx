@@ -2,7 +2,7 @@ import { trans } from "@/composables/translate";
 import AppLayout from "@/layouts/app-layout";
 import { Head } from "@inertiajs/react";
 import { PurchaseDataTable } from "./table/data-table";
-import { columns, Payment } from "./table/columns";
+import { columns } from "./table/columns";
 import purchasesMock from './table/mock';
 
 const breadcrumbs = [
