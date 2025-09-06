@@ -11,4 +11,5 @@ declare module "@inertiajs/core" {
 declare global {
     type Place = App.Models.Place;
     type Tag = App.Models.Tag;
+    type UnityType = App.Models.UnityType;
 }

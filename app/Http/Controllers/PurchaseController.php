@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePurchaseRequest;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 
@@ -22,16 +23,21 @@ class PurchaseController extends Controller
     {
         $tags = \App\Models\Tag::all();
         $places = \App\Models\Place::all();
+        $unityTypes = \App\Models\UnityType::all();
 
-        return inertia('Purchases/Create', compact('tags', 'places'));
+        return inertia('Purchases/Create', compact('tags', 'places', 'unityTypes'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreatePurchaseRequest $request)
     {
-        //
+        $validated = $request->validated();
+        dd($validated);
+
+
+
     }
 
     /**

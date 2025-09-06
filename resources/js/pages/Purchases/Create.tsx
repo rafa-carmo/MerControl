@@ -16,6 +16,7 @@ import tags from "@/routes/tags";
 import { fetchWithCsrf } from "@/utils/fetch";
 
 import { toast } from "sonner";
+import purchases from "@/routes/purchases";
 
 
 const breadcrumbs = [
@@ -35,20 +36,25 @@ function handleCreateTag(value: string): Promise<{ data: Tag }> {
     return fetchWithCsrf().post(tags.create.fetch().url, { name: value })
 }
 
-export default function Create({ tags, places }: { tags: Tag[], places: Place[] }) {
-    const { data, setData } = useForm({
+export default function Create({ tags, places, unityTypes }: { tags: Tag[], places: Place[], unityTypes: UnityType[] }) {
+    const { data, setData, post, errors } = useForm({
         place: "",
         date: new Date(),
         tag: "",
         items: [] as PurchaseItem[],
     })
     const [tagsState, setTagsState] = useState<Tag[]>(tags);
-    const [items, setItems] = useState<PurchaseItem[]>([]);
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        console.log(data);
-        console.log(items);
+        post(purchases.store.url(), {
+            onError: () => {
+                toast.error(trans("An error occurred while creating the purchase."));
+            },
+            onSuccess: () => {
+                toast.success(trans("Purchase created successfully."));
+            }
+        })
     }
 
     return (
@@ -129,14 +135,14 @@ export default function Create({ tags, places }: { tags: Tag[], places: Place[] 
                             <div className="grid gap-2">
                                 <label className="font-medium">{trans("Items")}</label>
                                 <div className="space-y-2">
-                                    {items.length === 0 ? <p className="py-4 border border-primary/25 rounded-lg text-center">{trans("No items added")}</p> : items.map((item) => (
+                                    {data.items.length === 0 ? <p className="py-4 border border-primary/25 rounded-lg text-center">{trans("No items added")}</p> : data.items.map((item) => (
                                         <div key={item.id} className="flex gap-2">
                                             <Input
                                                 type="text"
                                                 name={`items[${item.id}].name`}
                                                 placeholder={trans("Item name")}
                                                 className="block flex-1 border rounded px-3 py-2"
-                                                onChange={(e) => setItems(prev => prev.map(i => i.id === item.id ? { ...i, name: e.target.value } : i))}
+                                                onChange={(e) => setData("items", data.items.map(i => i.id === item.id ? { ...i, name: e.target.value } : i))}
                                                 required
                                             />
                                             <InputCurrency
@@ -148,7 +154,7 @@ export default function Create({ tags, places }: { tags: Tag[], places: Place[] 
                                                 className="w-fit"
                                                 value={item.price.toString()}
                                                 onValueChange={(_, __, values) =>
-                                                    setItems(prev => prev.map(i => i.id === item.id ? { ...i, price: values?.value || '0' } : i))
+                                                    setData("items", data.items.map(i => i.id === item.id ? { ...i, price: values?.value || '0' } : i))
                                                 }
                                             />
                                             <Input
@@ -157,31 +163,31 @@ export default function Create({ tags, places }: { tags: Tag[], places: Place[] 
                                                 name={`items[${item.id}].quantity`}
                                                 placeholder={trans("Quantity")}
                                                 className="block w-full max-w-24 md:max-w-1/4 border rounded px-3 py-2"
-                                                onChange={(e) => setItems(prev => prev.map(i => i.id === item.id ? { ...i, quantity: e.target.value } : i))}
+                                                onChange={(e) => setData("items", data.items.map(i => i.id === item.id ? { ...i, quantity: e.target.value } : i))}
                                                 required
                                             />
                                             <Select
                                                 name={`items[${item.id}].unity`}
                                                 required
                                                 defaultValue=""
-                                                onValueChange={(value) => setItems(prev => prev.map(i => i.id === item.id ? { ...i, unity: value } : i))}
+                                                value={item.unity}
+                                                onValueChange={(value) => setData("items", data.items.map(i => i.id === item.id ? { ...i, unity: value } : i))}
                                             >
                                                 <SelectTrigger className="w-[180px]">
                                                     <SelectValue placeholder={trans("Select unity")} />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="unit">{trans("Unit (unit)")}</SelectItem>
-                                                    <SelectItem value="kg">{trans("Kilogram (kg)")}</SelectItem>
-                                                    <SelectItem value="g">{trans("Gram (g)")}</SelectItem>
-                                                    <SelectItem value="l">{trans("Liter (l)")}</SelectItem>
-                                                    <SelectItem value="ml">{trans("Milliliter (ml)")}</SelectItem>
+                                                    {unityTypes.map((unity) => (
+                                                        <SelectItem key={unity.id} value={unity.abbreviation}>{`${trans(unity.name)} (${unity.abbreviation})`}</SelectItem>
+                                                    ))}
+
                                                 </SelectContent>
                                             </Select>
                                             <Button
                                                 type="button"
                                                 variant="destructive"
                                                 onClick={() => {
-                                                    setItems(prev => prev.slice(0, 0).concat(prev.slice(1)));
+                                                    setData("items", data.items.filter(i => i.id !== item.id));
                                                 }}
                                                 className="ml-2"
                                             >
@@ -193,8 +199,8 @@ export default function Create({ tags, places }: { tags: Tag[], places: Place[] 
                                         type="button"
                                         variant="outline"
                                         onClick={() => {
-                                            setItems(prev => [
-                                                ...prev,
+                                            setData("items", [
+                                                ...data.items,
                                                 { id: Date.now().toString(), name: "", price: '0', unity: "" }
                                             ]);
                                         }}

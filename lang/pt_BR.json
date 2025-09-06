@@ -243,11 +243,11 @@
     "Item price": "Preço do item",
 
     "Select unity": "Selecione a unidade",
-    "Kilogram (kg)": "Quilograma (kg)",
-    "Gram (g)": "Grama (g)",
-    "Liter (l)": "Litro (l)",
-    "Milliliter (ml)": "Mililitro (ml)",
-    "Unit (unit)": "Unidade (un)",
+    "Kilogram": "Quilograma",
+    "Gram": "Grama",
+    "Liter": "Litro",
+    "Milliliter": "Mililitro",
+    "Unit": "Unidade",
 
     "Appearance settings": "Configurações de aparência",
     "Update your account's appearance settings": "Atualize as configurações de aparência da sua conta"
