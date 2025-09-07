@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 /** @typescript */
 class Place extends Model
 {
-    public string $id;
     public string $name;
     public string $slug;
     public string $created_at;

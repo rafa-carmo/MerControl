@@ -6,15 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /** @typescript */
-class Tag extends Model
+class Product extends Model
 {
+    public string $barcode;
     public string $name;
     public string $slug;
-    public string $created_at;
-    public string $updated_at;
+    public PurchaseProduct $purchases;
 
-    protected $fillable = ['name', 'slug'];
-
+    protected $fillable = [
+        'barcode',
+        'name',
+        'unity_type_id',
+    ];
 
     public function setNameAttribute($value)
     {
@@ -24,6 +27,6 @@ class Tag extends Model
 
     public function purchases()
     {
-        return $this->hasMany(Purchase::class);
+        return $this->hasMany(PurchaseProduct::class);
     }
 }

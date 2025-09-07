@@ -29,7 +29,7 @@ class CreatePurchaseRequest extends FormRequest
             'items' => ['required', 'array', 'min:1'],
             'items.*.name' => ['required', 'string', 'max:255'],
             'items.*.quantity' => ['required', 'numeric', 'min:0.01'],
-            'items.*.unity' => ['required', 'in:unit,kg,g,l'],
+            'items.*.unity' => ['required', 'exists:unity_types,id'],
             'items.*.price' => ['required', 'numeric', 'min:0.01'],
         ];
     }

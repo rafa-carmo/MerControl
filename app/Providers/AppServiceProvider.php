@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 
@@ -25,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
                 'name' => config('app.name'),
             ]
         ]);
+
+        // Route::resourceVerbs([
+        //     'create' => __('routes.create'),
+        //     'edit    ' => __('routes.edit'),
+        // ]);
 
     }
 }

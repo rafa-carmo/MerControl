@@ -44,6 +44,7 @@ export default function Create({ tags, places, unityTypes }: { tags: Tag[], plac
         items: [] as PurchaseItem[],
     })
     const [tagsState, setTagsState] = useState<Tag[]>(tags);
+    console.error(errors)
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -169,7 +170,7 @@ export default function Create({ tags, places, unityTypes }: { tags: Tag[], plac
                                             <Select
                                                 name={`items[${item.id}].unity`}
                                                 required
-                                                defaultValue=""
+
                                                 value={item.unity}
                                                 onValueChange={(value) => setData("items", data.items.map(i => i.id === item.id ? { ...i, unity: value } : i))}
                                             >
@@ -178,7 +179,7 @@ export default function Create({ tags, places, unityTypes }: { tags: Tag[], plac
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {unityTypes.map((unity) => (
-                                                        <SelectItem key={unity.id} value={unity.abbreviation}>{`${trans(unity.name)} (${unity.abbreviation})`}</SelectItem>
+                                                        <SelectItem key={unity.id} value={unity.id.toString()}>{`${trans(unity.name)} (${unity.abbreviation})`}</SelectItem>
                                                     ))}
 
                                                 </SelectContent>

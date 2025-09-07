@@ -12,7 +12,10 @@ return new class () extends Migration {
     {
         Schema::table('purchases', function (Blueprint $table) {
             $table->foreignId('place_id')->nullable()->constrained('places')->onDelete('SET NULL');
-            $table->foreignId('tag_id')->nullable()->constrained('tags')->onDelete('SET NULL');
+        });
+        Schema::create('tags_purchase', function (Blueprint $table) {
+            $table->foreignId('tag_id')->constrained('tags')->onDelete('cascade');
+            $table->foreignId('purchase_id')->constrained('purchases')->onDelete('cascade');
         });
     }
 
@@ -23,8 +26,8 @@ return new class () extends Migration {
     {
         Schema::table('purchases', function (Blueprint $table) {
             $table->dropForeign(['place_id']);
-            $table->dropForeign(['tag_id']);
-            $table->dropColumn(['place_id', 'tag_id']);
+            $table->dropColumn(['place_id']);
         });
+        Schema::dropIfExists('tags_purchase');
     }
 };

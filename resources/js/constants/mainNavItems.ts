@@ -1,7 +1,10 @@
 import { dashboard } from "@/routes";
 import purchases from "@/routes/purchases";
+
+
 import { NavItem } from "@/types";
 import { LayoutGrid, ShoppingCart } from "lucide-react";
+
 
 export const mainNavItems: NavItem[] = [
     {

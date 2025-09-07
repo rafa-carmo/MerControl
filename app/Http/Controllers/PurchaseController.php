@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePurchaseRequest;
+use App\Models\Product;
 use App\Models\Purchase;
+use App\Models\PurchaseProduct;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class PurchaseController extends Controller
 {
@@ -13,7 +19,11 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        return inertia('Purchases/Index');
+        $purchases = Purchase::with(['products.product', 'place', 'tags'])->get();
+        // dd($purchases[0]->toArray());
+        return inertia('Purchases/Index', [
+            'purchases' => $purchases,
+        ]);
     }
 
     /**
@@ -25,6 +35,8 @@ class PurchaseController extends Controller
         $places = \App\Models\Place::all();
         $unityTypes = \App\Models\UnityType::all();
 
+
+
         return inertia('Purchases/Create', compact('tags', 'places', 'unityTypes'));
     }
 
@@ -34,9 +46,37 @@ class PurchaseController extends Controller
     public function store(CreatePurchaseRequest $request)
     {
         $validated = $request->validated();
-        dd($validated);
+        // dd($validated);
 
+        DB::beginTransaction();
+        try {
+            $purchase = Purchase::create([
+                'date' => Carbon::create($validated['date'])->format('Y-m-d'),
+                'place_id' => $validated['place'],
+            ]);
 
+            $purchase->tags()->attach($validated['tag']);
+            foreach ($validated['items'] as $item) {
+                $product = Product::where('slug', Str::slug($item['name']))->firstOrCreate([
+                    'name' => $item['name'],
+                    'unity_type_id' => $item['unity'],
+                ]);
+
+                PurchaseProduct::create([
+                    'purchase_id' => $purchase->id,
+                    'product_id' => $product->id,
+                    'quantity' => $item['quantity'],
+                    'unity_price' => $item['price'],
+                    'total_price' => $item['quantity'] * $item['price'],
+                ]);
+
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error fetching data for purchase creation: ' . $e->getMessage());
+            return redirect()->back()->withErrors(__('An error occurred while preparing the purchase creation form.'));
+        }
 
     }
 
