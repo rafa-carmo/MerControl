@@ -20,7 +20,6 @@ class PurchaseController extends Controller
     public function index()
     {
         $purchases = Purchase::with(['products.product', 'place', 'tags'])->get();
-        // dd($purchases[0]->toArray());
         return inertia('Purchases/Index', [
             'purchases' => $purchases,
         ]);
@@ -110,5 +109,26 @@ class PurchaseController extends Controller
     public function destroy(Purchase $purchase)
     {
         //
+    }
+
+
+    public function scheduleScraping(Request $request)
+    {
+        $request->validate([
+            'url' => 'required|string',
+            'key' => 'nullable|string',
+        ]);
+
+        try {
+            \App\Models\PendingScraping::create([
+                'url' => $request->input('url'),
+                'key' => $request->input('key'),
+            ]);
+
+            return response()->json(['message' => 'Scraping scheduled successfully.'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error scheduling scraping: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while scheduling the scraping.'], 500);
+        }
     }
 }
