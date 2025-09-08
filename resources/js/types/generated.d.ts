@@ -28,6 +28,8 @@ declare namespace App.Models {
         products: Array<App.Models.PurchaseProduct>;
         place: App.Models.Place;
         tags: App.Models.Tag;
+        total_tax: number;
+        total_discount: number;
         incrementing: boolean;
         preventsLazyLoading: boolean;
         exists: boolean;

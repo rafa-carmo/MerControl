@@ -221,12 +221,33 @@ async function handleTestConnection(request, sendResponse) {
 }
 
 // Função injetada para extrair dados da página
-function extractPageData(cssSelector) {
+function extractPageData() {
     try {
         let data = {};
 
         const placeElement = document.querySelector("div.txtTopo");
         const place = placeElement ? placeElement.textContent.trim() : null;
+        let cnpj = null;
+        const total_tax = document.getElementsByClassName("totalNumb txtObs")[0]?.textContent.replace("Tributos R$:", "").trim() || "0";
+        let total_discount = "0";
+
+        Array.from(document.getElementsByClassName("txtRight")).forEach(element => {
+
+            if (element?.textContent?.includes("Descontos")) {
+                Array.from(document.getElementsByTagName("div")).forEach(div => {
+                    if (div?.textContent?.includes("Descontos")) {
+                        total_discount = div.getElementsByClassName("totalNumb")[0]?.textContent
+                    }
+                })
+
+            }
+        })
+
+        Array.from(document.getElementsByClassName("text")).forEach(element => {
+            if (element?.textContent?.includes("CNPJ")) {
+                cnpj = element.textContent.replace("CNPJ:", "").trim();
+            }
+        })
 
         // Extrair data (date)
         const dateElement = document.querySelector("ul.ui-listview");
@@ -267,7 +288,9 @@ function extractPageData(cssSelector) {
         data.date = date;
         data.tags = ["Mercado"];
         data.products = items;
-
+        data.cnpj = cnpj;
+        data.total_tax = parseFloat(total_tax.replace(",", "."));
+        data.total_discount = parseFloat(total_discount.replace(",", "."));
         return data;
     } catch (error) {
         console.error('Erro na extração de dados:', error);

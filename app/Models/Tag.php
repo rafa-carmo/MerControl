@@ -20,6 +20,8 @@ class Tag extends Model
     {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
+        $this->attributes['created_at'] = now();
+        $this->attributes['updated_at'] = now();
     }
 
     public function purchases()

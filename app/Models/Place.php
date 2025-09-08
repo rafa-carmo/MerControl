@@ -12,12 +12,15 @@ class Place extends Model
     public string $created_at;
     public string $updated_at;
 
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = ['name', 'cnpj', 'business_name', 'slug'];
 
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = \Illuminate\Support\Str::slug($value);
+        $this->attributes['created_at'] = now();
+        $this->attributes['updated_at'] = now();
+
     }
 
     public function purchases()

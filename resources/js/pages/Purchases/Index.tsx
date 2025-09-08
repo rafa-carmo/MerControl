@@ -22,6 +22,8 @@ export default function PurchasesIndex({ purchases }: { purchases?: Purchase[] }
                         place: purchase.place.name,
                         quantity: purchase.products.length,
                         purchaseData: new Date(purchase.date),
+                        total_tax: purchase.total_tax,
+                        total_discount: purchase.total_discount,
                         amount: purchase.products.map(product => parseFloat(product.total_price)).reduce((a, b) => a + b, 0),
                     })) : []}
                 />

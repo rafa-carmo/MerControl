@@ -9,6 +9,8 @@ import { trans } from '../../../composables/translate';
 export type Payment = {
     id: string
     amount: number
+    total_discount?: number
+    total_tax?: number
     quantity: number
     place: string
     purchaseData: Date
@@ -16,14 +18,6 @@ export type Payment = {
 
 export const columns: ColumnDef<Payment>[] = [
 
-    {
-        accessorKey: "id",
-        header: () => <div className="text-start hidden md:block">ID</div>,
-        cell: ({ row }) => {
-            const id = row.getValue("id") as string
-            return <div className="text-start hidden md:block">{id}</div>
-        }
-    },
     {
         accessorKey: "place",
         header: () => <div className="text-start text-xs md:text-base">{trans("Place")}</div>,
@@ -42,21 +36,35 @@ export const columns: ColumnDef<Payment>[] = [
     },
     {
         accessorKey: "purchaseData",
-        header: () => <div className="text-start hidden md:block">{trans("Purchase Date")}</div>,
+        header: () => <div className="text-center hidden md:block">{trans("Purchase Date")}</div>,
         cell: ({ row }) => {
             const purchaseData = row.getValue("purchaseData") as Date
-            return <div className="text-start hidden md:block">{purchaseData.toLocaleDateString("pt-BR")}</div>
+            return <div className="text-center hidden md:block">{purchaseData.toLocaleDateString("pt-BR")}</div>
         }
     },
     {
         accessorKey: "amount",
         header: () => <div className="text-start text-xs md:text-base">{trans("Amount")}</div>,
         cell: ({ row }) => {
+            console.log(row.original)
             const amount = parseFloat(row.getValue("amount"))
+            const discount = row.original.total_discount ?? 0
             const formatted = new Intl.NumberFormat("pt-BR", {
                 style: "currency",
                 currency: "BRL",
-            }).format(amount)
+            }).format(amount - discount)
+            return <div className="text-start text-xs md:text-base">{formatted}</div>
+        },
+    },
+    {
+        accessorKey: "total_tax",
+        header: () => <div className="text-start text-xs md:text-base">{trans("Total Tax")}</div>,
+        cell: ({ row }) => {
+            const totalTax = row.getValue("total_tax") as number
+            const formatted = new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+            }).format(totalTax)
             return <div className="text-start text-xs md:text-base">{formatted}</div>
         },
     },

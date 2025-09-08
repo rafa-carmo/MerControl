@@ -13,6 +13,8 @@ return new class () extends Migration {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->date('date');
+            $table->float('total_tax')->default(0);
+            $table->float('total_discount')->default(0);
             $table->timestamps();
         });
     }

@@ -12,10 +12,14 @@ class Purchase extends Model
     public array $products;
     public Place $place;
     public Tag $tags;
+    public int $total_tax;
+    public int $total_discount;
 
     protected $fillable = [
         'date',
         'place_id',
+        'total_tax',
+        'total_discount',
     ];
 
     public function products()

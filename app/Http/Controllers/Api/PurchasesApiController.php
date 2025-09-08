@@ -15,14 +15,18 @@ class PurchasesApiController extends Controller
         $validated = $request->validated();
         DB::beginTransaction();
         try {
-            $place = \App\Models\Place::where(['name' => $validated['place'], 'slug' => Str::slug($validated['place'])])->firstOrCreate([
+            $place = \App\Models\Place::where(['cnpj' => $validated['cnpj']])->orWhere(['slug' => Str::slug($validated['place'])])->firstOrCreate([
+                'cnpj' => $validated['cnpj'] ?? null,
+                'business_name' => $validated['place'],
                 'name' => $validated['place'],
             ]);
+
             $purchase = \App\Models\Purchase::create([
                 'date' => $validated['date'],
+                'total_tax' => $validated['total_tax'] ?? 0,
+                'total_discount' => $validated['total_discount'] ?? 0,
                 'place_id' => $place->id,
             ]);
-
             $tagIds = [];
             foreach ($validated['tags'] as $tagName) {
                 $tag = \App\Models\Tag::where(['name' => $tagName, 'slug' => Str::slug($tagName)])->firstOrCreate([
@@ -34,7 +38,12 @@ class PurchasesApiController extends Controller
 
             foreach ($validated['products'] as $item) {
 
-                $unityType = \App\Models\UnityType::where('abbreviation', $item['unit'])->first();
+                $unityType = \App\Models\UnityType::where('abbreviation', $item['unit'])->firstOrCreate([
+                    'name' => $item['unit'],
+                    'type' => $item['unit'],
+                    'abbreviation' => $item['unit'],
+                ]);
+
 
                 $product = \App\Models\Product::where('slug', Str::slug($item['name']))->firstOrCreate([
                     'name' => $item['name'],
@@ -49,6 +58,7 @@ class PurchasesApiController extends Controller
                     'total_price' => $item['total_price'],
                 ]);
             }
+
             DB::commit();
             return response()->json(['message' => 'Store purchase'], 201, [
                 'Location' => route('purchases.show', ['purchase' => $purchase->id]),
