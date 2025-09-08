@@ -48,4 +48,52 @@ class RegisteredUserController extends Controller
 
         return redirect()->intended(route('dashboard', absolute: false));
     }
+
+    public function generateToken(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'expiration' => 'string|in:1D,7D,30D,1Y,never',
+        ]);
+        $validated['expiration'] = null;
+
+        if ($request->expiration !== 'never') {
+
+            switch ($request->expiration) {
+                case '1D':
+                    $validated['expiration'] = now()->addDay();
+                    break;
+                case '7D':
+                    $validated['expiration'] = now()->addDays(7);
+                    break;
+                case '30D':
+                    $validated['expiration'] = now()->addDays(30);
+                    break;
+                case '1Y':
+                    $validated['expiration'] = now()->addYear();
+                    break;
+            }
+
+        }
+        // dd(Carbon::create($validated['expiration'])->toDateTimeString());
+
+        $token =  $request->user()->createToken($request->name, ['*'], $validated['expiration'] ?? null);
+
+        return response()->json([
+            'token' => $token->plainTextToken,
+            'tokenData' => $token->accessToken,
+        ], 201);
+    }
+
+    public function revokeToken(Request $request, $tokenId)
+    {
+        $token = $request->user()->tokens()->where('id', $tokenId)->first();
+
+        if ($token) {
+            $token->delete();
+            return response()->json(['message' => 'Token revoked'], 200);
+        }
+
+        return response()->json(['error' => 'Token not found'], 404);
+    }
 }

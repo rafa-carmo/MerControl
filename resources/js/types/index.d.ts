@@ -40,5 +40,17 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    tokens: ApiToken[];
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface ApiToken {
+    id: number;
+    name: string;
+    token: string | null;
+    abilities: string[];
+    last_used_at: string | null;
+    created_at: string;
+    updated_at: string;
+    expires_at: string | null;
 }

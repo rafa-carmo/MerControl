@@ -250,5 +250,21 @@
     "Unit": "Unidade",
 
     "Appearance settings": "Configurações de aparência",
-    "Update your account's appearance settings": "Atualize as configurações de aparência da sua conta"
+    "Update your account's appearance settings": "Atualize as configurações de aparência da sua conta",
+
+    "Manage your API tokens here. You can create, revoke, and regenerate tokens.": "Gerencie seus tokens de API aqui. Você pode criar, revogar e regenerar tokens.",
+    "No API tokens found.": "Nenhum token de API encontrado.",
+    "Token created successfully.": "Token criado com sucesso.",
+    "Token deleted successfully.": "Token deletado com sucesso.",
+    "Create a new API token for your account.": "Crie um novo token de API para sua conta.",
+    "Your new API token has been created.": "Seu novo token de API foi criado.",
+    "Token copied to clipboard.": "Token copiado para a área de transferência.",
+    "1 Day": "1 Dia",
+    "7 Days": "7 Dias",
+    "30 Days": "30 Dias",
+    "1 Year": "1 Ano",
+    "Never": "Nunca",
+    "Revoke API Token": "Revogar Token de API",
+    "Are you sure you want to revoke this API token?": "Tem certeza de que deseja revogar este token de API?",
+    "Revoke": "Revogar"
 }
