@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 /** @typescript */
 class UnityType extends Model
 {
-    public string $id;
     public string $name;
     public string $abbreviation;
     public string $type;

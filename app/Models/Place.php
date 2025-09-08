@@ -14,6 +14,12 @@ class Place extends Model
 
     protected $fillable = ['name', 'slug'];
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = \Illuminate\Support\Str::slug($value);
+    }
+
     public function purchases()
     {
         return $this->hasMany(Purchase::class);

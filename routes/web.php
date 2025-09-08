@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,6 +18,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('purchases', \App\Http\Controllers\PurchaseController::class);
 
     Route::post('tags/create/fetch', [\App\Http\Controllers\TagController::class, 'fetch_create'])->name('tags.create.fetch');
+
+    Route::get('/tokens/create', function (Request $request) {
+        $token =  $request->user()->createToken("api");
+        return 'Token created - ' . $token->plainTextToken;
+
+    })->name('tokens.create');
 });
 
 require __DIR__.'/settings.php';

@@ -37,8 +37,8 @@ declare namespace App.Models {
     };
     export type PurchaseProduct = {
         quantity: number;
-        unity_price: number;
-        total_price: number;
+        unity_price: string;
+        total_price: string;
         purchase: App.Models.Purchase;
         product: App.Models.Product;
         incrementing: boolean;
@@ -61,7 +61,6 @@ declare namespace App.Models {
         usesUniqueIds: boolean;
     };
     export type UnityType = {
-        id: string;
         name: string;
         abbreviation: string;
         type: string;

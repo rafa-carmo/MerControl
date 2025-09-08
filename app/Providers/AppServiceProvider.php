@@ -27,10 +27,5 @@ class AppServiceProvider extends ServiceProvider
             ]
         ]);
 
-        // Route::resourceVerbs([
-        //     'create' => __('routes.create'),
-        //     'edit    ' => __('routes.edit'),
-        // ]);
-
     }
 }

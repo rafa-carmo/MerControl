@@ -22,7 +22,7 @@ export default function PurchasesIndex({ purchases }: { purchases?: Purchase[] }
                         place: purchase.place.name,
                         quantity: purchase.products.length,
                         purchaseData: new Date(purchase.date),
-                        amount: purchase.products.reduce((sum, item) => sum + item.total_price, 0),
+                        amount: purchase.products.map(product => parseFloat(product.total_price)).reduce((a, b) => a + b, 0),
                     })) : []}
                 />
             </div>
