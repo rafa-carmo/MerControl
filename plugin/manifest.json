@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "Scraper NFC Pro",
+  "version": "1.0.0",
+  "description": "Extensão para web scraping com integração API personalizada",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://consultadfe.fazenda.rj.gov.br/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Scraper NFC Pro"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://consultadfe.fazenda.rj.gov.br/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["content.js"],
+      "matches": ["https://consultadfe.fazenda.rj.gov.br/*"]
+    }
+  ]
+}
+
