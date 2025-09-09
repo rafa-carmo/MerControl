@@ -17,6 +17,7 @@ class Purchase extends Model
 
     protected $fillable = [
         'date',
+        'key',
         'place_id',
         'total_tax',
         'total_discount',

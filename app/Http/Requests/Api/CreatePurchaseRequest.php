@@ -27,6 +27,7 @@ class CreatePurchaseRequest extends FormRequest
             'total_tax' => ['sometimes', 'numeric', 'min:0'],
             'total_discount' => ['sometimes', 'numeric', 'min:0'],
             'cnpj' => ['sometimes', 'string', 'max:255'],
+            'key' => ['sometimes', 'string', 'max:255', 'unique:purchases,key'],
             'products' => ['required', 'array', 'min:1'],
             'products.*.name' => ['required', 'string', 'max:255'],
             'products.*.description' => ['nullable', 'string', 'max:255'],

@@ -229,6 +229,7 @@ function extractPageData() {
         const place = placeElement ? placeElement.textContent.trim() : null;
         let cnpj = null;
         const total_tax = document.getElementsByClassName("totalNumb txtObs")[0]?.textContent.replace("Tributos R$:", "").trim() || "0";
+        const key = document.getElementsByClassName("chave")[0]?.textContent.replaceAll(" ", "").trim() || null;
         let total_discount = "0";
 
         Array.from(document.getElementsByClassName("txtRight")).forEach(element => {
@@ -291,6 +292,7 @@ function extractPageData() {
         data.cnpj = cnpj;
         data.total_tax = parseFloat(total_tax.replace(",", "."));
         data.total_discount = parseFloat(total_discount.replace(",", "."));
+        data.key = key;
         return data;
     } catch (error) {
         console.error('Erro na extração de dados:', error);

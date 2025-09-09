@@ -22,6 +22,7 @@ class PurchasesApiController extends Controller
             ]);
 
             $purchase = \App\Models\Purchase::create([
+                'key' => $validated['key'] ?? null,
                 'date' => $validated['date'],
                 'total_tax' => $validated['total_tax'] ?? 0,
                 'total_discount' => $validated['total_discount'] ?? 0,
