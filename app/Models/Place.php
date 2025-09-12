@@ -9,6 +9,8 @@ class Place extends Model
 {
     public string $name;
     public string $slug;
+    public ?string $cnpj;
+    public ?string $business_name;
     public string $created_at;
     public string $updated_at;
 

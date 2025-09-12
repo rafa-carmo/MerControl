@@ -46,7 +46,6 @@ export const columns: ColumnDef<Payment>[] = [
         accessorKey: "amount",
         header: () => <div className="text-start text-xs md:text-base">{trans("Amount")}</div>,
         cell: ({ row }) => {
-            console.log(row.original)
             const amount = parseFloat(row.getValue("amount"))
             const discount = row.original.total_discount ?? 0
             const formatted = new Intl.NumberFormat("pt-BR", {

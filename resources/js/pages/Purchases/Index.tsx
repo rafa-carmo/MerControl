@@ -1,7 +1,7 @@
 import { trans } from "@/composables/translate";
 import AppLayout from "@/layouts/app-layout";
 import { Head } from "@inertiajs/react";
-import { PurchaseDataTable } from "./table/data-table";
+import { DataTable } from "../../components/Table/data-table";
 import { columns } from "./table/columns";
 
 const breadcrumbs = [
@@ -16,7 +16,7 @@ export default function PurchasesIndex({ purchases }: { purchases?: Purchase[] }
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl px-1 md:p-4">
                 <h1>{trans("Purchases")}</h1>
 
-                <PurchaseDataTable columns={columns}
+                <DataTable columns={columns}
                     data={purchases ? purchases.map((purchase) => ({
                         id: purchase.id,
                         place: purchase.place.name,

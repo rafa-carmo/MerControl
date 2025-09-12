@@ -12,7 +12,9 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        //
+        return inertia('Places/Index', [
+            'places' => Place::all(),
+        ]);
     }
 
     /**

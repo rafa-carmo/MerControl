@@ -13,10 +13,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
 
-    // Purchases
+    // Start Purchases Routes
     Route::resource('purchases', \App\Http\Controllers\PurchaseController::class);
     Route::post('tags/create/fetch', [\App\Http\Controllers\TagController::class, 'fetch_create'])->name('tags.create.fetch');
     Route::post('schedule-scraping', [\App\Http\Controllers\PurchaseController::class, 'scheduleScraping'])->name('schedule-scraping');
+    // End Purchases Routes
+
+    // Start Places Routes
+    Route::resource('places', \App\Http\Controllers\PlaceController::class);
+    // End Places Routes
 
     Route::post('/tokens/create', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'generateToken'])->name('tokens.create');
     Route::delete('/tokens/{tokenId}', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'revokeToken'])->name('tokens.revoke');

@@ -34,8 +34,6 @@ class PurchaseController extends Controller
         $places = \App\Models\Place::all();
         $unityTypes = \App\Models\UnityType::all();
 
-
-
         return inertia('Purchases/Create', compact('tags', 'places', 'unityTypes'));
     }
 

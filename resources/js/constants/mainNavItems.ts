@@ -1,9 +1,9 @@
 import { dashboard } from "@/routes";
 import purchases from "@/routes/purchases";
-
+import places from "@/routes/places";
 
 import { NavItem } from "@/types";
-import { LayoutGrid, ShoppingCart } from "lucide-react";
+import { Building, LayoutGrid, ShoppingCart } from "lucide-react";
 
 
 export const mainNavItems: NavItem[] = [
@@ -23,6 +23,20 @@ export const mainNavItems: NavItem[] = [
             {
                 title: 'Add Purchase',
                 href: purchases.create().url,
+            },
+        ],
+    },
+    {
+        title: 'Places',
+        icon: Building,
+        subitems: [
+            {
+                title: 'View Places',
+                href: places.index().url,
+            },
+            {
+                title: 'Add Place',
+                href: places.create().url,
             },
         ],
     }

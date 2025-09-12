@@ -2,6 +2,8 @@ declare namespace App.Models {
     export type Place = {
         name: string;
         slug: string;
+        cnpj: string | null;
+        business_name: string | null;
         created_at: string;
         updated_at: string;
         incrementing: boolean;

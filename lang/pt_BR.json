@@ -208,8 +208,11 @@
   "Don't have an account?": "Não tem uma conta?",
 
   "Purchases": "Compras",
+  "Places": "Locais",
   "View Purchases": "Visualizar Compras",
   "Add Purchase": "Adicionar Compra",
+  "View Places": "Visualizar Locais",
+  "Add Place": "Adicionar Local",
   "Create a new purchase record": "Criar um novo registro de compra",
   "Edit Purchase": "Editar Compra",
   "Delete Purchase": "Deletar Compra",
