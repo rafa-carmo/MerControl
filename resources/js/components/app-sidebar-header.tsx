@@ -2,6 +2,7 @@ import { Breadcrumbs } from '@/components/breadcrumbs';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { ReadQrCode } from './global/ReadQrCode';
+import { NotificationBell } from './notification-bell';
 
 
 
@@ -12,8 +13,10 @@ export function AppSidebarHeader({ breadcrumbs = [] }: { breadcrumbs?: Breadcrum
                 <SidebarTrigger className="-ml-1" />
                 <Breadcrumbs breadcrumbs={breadcrumbs} />
             </div>
-
-            <ReadQrCode />
+            <div className='flex items-center gap-2'>
+                <NotificationBell />
+                <ReadQrCode />
+            </div>
         </header>
     );
 }
