@@ -271,7 +271,7 @@ function extractPageData() {
         const rows = document.querySelectorAll("tr");
         rows.forEach(node => {
             let text = node.textContent.replace(/\u00A0/g, " ").replace(/\n/g, "").replace(/\t/g, "").trim();
-            const matches = text.match(pattern);
+            let matches = text.match(pattern);
             if (matches) {
             items.push({
                 name: matches[1].trim(),
@@ -281,6 +281,19 @@ function extractPageData() {
                 unit_price: parseFloat(matches[6].replace(",", ".")),
                 total_price: parseFloat(matches[7].replace(",", "."))
             });
+            }
+
+            const pattern2 = /^(.*?)\(Código:(\d+)\)Qtde\.:(\d+(?:,\d+)?)UN:\s*([A-Z]+)Vl\. Unit\.: (\d+(?:,\d+)?)Vl\. Total(\d+(?:,\d+)?)/;
+            let matches2 = text.match(pattern2);
+            if (matches2) {
+                items.push({
+                    name: matches2[1].trim(),
+                    description: matches2[1].trim(),
+                    quantity: parseFloat(matches2[2].replace(",", ".")),
+                    unit: matches2[3].toLowerCase(),
+                    unit_price: parseFloat(matches2[5].replace(",", ".")),
+                    total_price: parseFloat(matches2[6].replace(",", "."))
+                });
             }
         });
 
