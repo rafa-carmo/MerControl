@@ -19,7 +19,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchases = Purchase::with(['products.product', 'place', 'tags'])->get();
+        $purchases = Purchase::with(['products.product', 'place', 'tags'])->orderBy('date', 'desc')->get();
         return inertia('Purchases/Index', [
             'purchases' => $purchases,
         ]);
@@ -43,7 +43,6 @@ class PurchaseController extends Controller
     public function store(CreatePurchaseRequest $request)
     {
         $validated = $request->validated();
-        // dd($validated);
 
         DB::beginTransaction();
         try {

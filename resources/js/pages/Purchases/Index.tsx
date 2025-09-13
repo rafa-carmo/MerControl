@@ -9,7 +9,14 @@ const breadcrumbs = [
     { title: "Purchases", href: "/purchases" },
 ];
 
+function formatToUtc(date: string): string {
+    const localDate = new Date(date);
+    const utcDate = new Date(localDate.getTime() + localDate.getTimezoneOffset() * 60000);
+    return utcDate.toISOString();
+}
+
 export default function PurchasesIndex({ purchases }: { purchases?: Purchase[] }) {
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={trans("Purchases")} />
@@ -21,7 +28,7 @@ export default function PurchasesIndex({ purchases }: { purchases?: Purchase[] }
                         id: purchase.id,
                         place: purchase.place.name,
                         quantity: purchase.products.length,
-                        purchaseData: new Date(purchase.date),
+                        purchaseData: new Date(formatToUtc(purchase.date)),
                         total_tax: purchase.total_tax,
                         total_discount: purchase.total_discount,
                         amount: purchase.products.map(product => parseFloat(product.total_price)).reduce((a, b) => a + b, 0),
