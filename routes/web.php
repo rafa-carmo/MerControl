@@ -11,6 +11,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+    Route::get('pending-scraping', [\App\Http\Controllers\PurchaseController::class, 'pendingScraping'])->name('pending-scraping');
 
 
     // Start Purchases Routes

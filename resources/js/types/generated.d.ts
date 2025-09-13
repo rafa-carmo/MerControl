@@ -1,4 +1,17 @@
 declare namespace App.Models {
+    export type PendingScraping = {
+        url: string;
+        key: string;
+        processed: boolean;
+        created_at: string;
+        updated_at: string;
+        incrementing: boolean;
+        preventsLazyLoading: boolean;
+        exists: boolean;
+        wasRecentlyCreated: boolean;
+        timestamps: boolean;
+        usesUniqueIds: boolean;
+    };
     export type Place = {
         name: string;
         slug: string;

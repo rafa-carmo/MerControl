@@ -118,6 +118,10 @@ class PurchaseController extends Controller
         ]);
 
         try {
+            if (\App\Models\PendingScraping::where('key', $request->input('key'))->first()) {
+                return response()->json(['message' => 'This URL is already scheduled for scraping.'], 200);
+            }
+
             \App\Models\PendingScraping::create([
                 'url' => $request->input('url'),
                 'key' => $request->input('key'),
@@ -128,5 +132,11 @@ class PurchaseController extends Controller
             Log::error('Error scheduling scraping: ' . $e->getMessage());
             return response()->json(['error' => 'An error occurred while scheduling the scraping.'], 500);
         }
+    }
+
+    public function pendingScraping()
+    {
+        $pendingScrapings = \App\Models\PendingScraping::unprocessed()->get();
+        return response()->json($pendingScrapings);
     }
 }

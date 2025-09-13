@@ -39,4 +39,11 @@ class CreatePurchaseRequest extends FormRequest
             'tags.*' => ['string', 'max:255'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'key.unique' => __('validation.key_unique'),
+        ];
+    }
 }

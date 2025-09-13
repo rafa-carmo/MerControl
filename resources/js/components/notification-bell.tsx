@@ -1,6 +1,12 @@
 import { Bell, ChevronDown, Dot } from "lucide-react";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { DialogPendingScraping } from "./dialog-pending-scraping";
+
+const options = [
+    <p className="px-2 py-3">Pending <span className="font-medium">Scraping</span></p>,
+    <div className="w-full "><DialogPendingScraping /></div>
+]
 
 export function NotificationBell() {
     return (
@@ -26,11 +32,12 @@ export function NotificationBell() {
                         <ChevronDown className='size-4' />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent align="end" asChild>
-                    <div className="w-80 h-60 p-4 flex flex-col">
-                        <p className="font-medium mb-2">
-                            Other actions
-                        </p>
+                <PopoverContent align="end" asChild className="p-0">
+                    <div className="w-80 h-60 flex flex-col gap-2">
+
+                        {options.map((option, index) => (
+                            <div key={index} className="not-last:border-b not-last:border-white w-full">{option}</div>
+                        ))}
                     </div>
                 </PopoverContent>
             </Popover>

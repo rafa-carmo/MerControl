@@ -156,6 +156,7 @@ return [
     'string'               => 'O campo :attribute deve ser uma string.',
     'timezone'             => 'O campo :attribute deve ser uma zona válida.',
     'unique'               => 'Este :attribute já está sendo utilizado.',
+    'key_unique'          => 'Esta chave de compra já está sendo utilizada.',
     'uploaded'             => 'Ocorreu uma falha no upload do campo :attribute.',
     'uppercase'            => 'O campo :attribute deve conter letras maiúsculas.',
     'url'                  => 'O campo :attribute tem um formato inválido.',

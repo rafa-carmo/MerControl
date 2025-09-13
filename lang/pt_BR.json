@@ -270,5 +270,10 @@
     "Never": "Nunca",
     "Revoke API Token": "Revogar Token de API",
     "Are you sure you want to revoke this API token?": "Tem certeza de que deseja revogar este token de API?",
-    "Revoke": "Revogar"
+    "Revoke": "Revogar",
+
+    "Created at": "Criado em",
+    "Expires at": "Expira em",
+    "Pending Scrapings": "Scrapings Pendentes",
+    "No pending scrapings found.": "Nenhum scraping pendente encontrado."
 }

@@ -171,6 +171,10 @@ async function handleSendToApi(request, sendResponse) {
         });
 
         if (!response.ok) {
+            const errorData = await response.json();
+            if(errorData && errorData.message) {
+                throw new Error(`${errorData.message}`);
+            }
             throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
         }
 
@@ -282,7 +286,7 @@ function extractPageData() {
                 total_price: parseFloat(matches[7].replace(",", "."))
             });
             }
-
+            if(items.length > 0) return; // Se já encontrou um item, não tenta o segundo padrão
             const pattern2 = /^(.*?)\(Código:(\d+)\)Qtde\.:(\d+(?:,\d+)?)UN:\s*([A-Z]+)Vl\. Unit\.: (\d+(?:,\d+)?)Vl\. Total(\d+(?:,\d+)?)/;
             let matches2 = text.match(pattern2);
             if (matches2) {

@@ -8,13 +8,20 @@ declare module "@inertiajs/core" {
         translations: Record<string, string>;
     }
 }
+
+type DefaultModelAttributes = {
+    id: string;
+    created_at: string;
+    updated_at: string;
+}
 declare global {
-    type Place = App.Models.Place & { id: string };
-    type Tag = App.Models.Tag & { id: string };
-    type UnityType = App.Models.UnityType & { id: string };
-    type Item = App.Models.Item & { id: string };
-    type Purchase = App.Models.Purchase & { id: string };
-    type PurchaseItem = App.Models.PurchaseItem & { id: string };
-    type Product = App.Models.Product & { id: string };
-    type PurchaseProduct = App.Models.PurchaseProduct & { id: string };
+    type Place = App.Models.Place & DefaultModelAttributes;
+    type Tag = App.Models.Tag & DefaultModelAttributes;
+    type UnityType = App.Models.UnityType & DefaultModelAttributes;
+    type Item = App.Models.Item & DefaultModelAttributes;
+    type Purchase = App.Models.Purchase & DefaultModelAttributes;
+    type PurchaseItem = App.Models.PurchaseItem & DefaultModelAttributes;
+    type Product = App.Models.Product & DefaultModelAttributes;
+    type PurchaseProduct = App.Models.PurchaseProduct & DefaultModelAttributes;
+    type PendingScraping = App.Models.PendingScraping & DefaultModelAttributes;
 }

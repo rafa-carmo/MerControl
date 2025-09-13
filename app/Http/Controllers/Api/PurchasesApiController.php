@@ -21,6 +21,12 @@ class PurchasesApiController extends Controller
                 'name' => $validated['place'],
             ]);
 
+            if (\App\Models\Purchase::where(['key' => $validated['key']])->first()) {
+                \App\Models\PendingScraping::where('key', $validated['key'])->update(['processed' => true]);
+                DB::commit();
+                return response()->json(['message' => 'This purchase key already exists.'], 200);
+            }
+
             $purchase = \App\Models\Purchase::create([
                 'key' => $validated['key'] ?? null,
                 'date' => $validated['date'],
@@ -58,6 +64,8 @@ class PurchasesApiController extends Controller
                     'unity_price' => $item['unit_price'],
                     'total_price' => $item['total_price'],
                 ]);
+
+                \App\Models\PendingScraping::where('key', $validated['key'] ?? null)->update(['processed' => true]);
             }
 
             DB::commit();
