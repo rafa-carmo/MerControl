@@ -1,8 +1,13 @@
+import { DeleteDialog } from "@/components/delete-dialog";
+import { Button } from "@/components/ui/button";
 import { trans } from "@/composables/translate";
+import places from "@/routes/places";
+import { Link } from "@inertiajs/react";
 import { ColumnDef } from "@tanstack/react-table";
+import { Eye, PencilLine } from "lucide-react";
 
 export type Place = {
-    id: string;
+    id: number;
     cnpj: string | null;
     business_name?: string | null;
     name: string;
@@ -42,17 +47,29 @@ export const columns: ColumnDef<Place>[] = [
     },
     {
         accessorKey: "actions",
-        header: () => <p className="text-end">Actions</p>,
-        cell: () => {
+        header: () => <p className="text-center">Actions</p>,
+        cell: ({ row }) => {
             return (
-                <div className="flex w-full justify-end gap-2">
-                    <button className="btn-ghost btn-xs btn">
-                        <span className="hidden md:inline">Edit</span>
-
-                    </button>
-                    <button className="btn-ghost btn-xs btn">
-                        <span className="hidden md:inline">Delete</span>
-                    </button>
+                <div className="flex w-full justify-center gap-2">
+                    <Button variant="ghost" type="button" className="p-0 m-0">
+                        <Link href={places.show(row.original.id).url}>
+                            <span className="hidden md:inline">
+                                <Eye className="size-4" />
+                            </span>
+                        </Link>
+                    </Button>
+                    <Button variant="ghost" type="button" className="p-0 m-0">
+                        <Link href={places.edit(row.original.id).url}>
+                            <span className="hidden md:inline">
+                                <PencilLine className="size-4" />
+                            </span>
+                        </Link>
+                    </Button>
+                    <DeleteDialog
+                        url={places.destroy(row.original.id).url}
+                        text={trans("Are you sure you want to delete this place?")}
+                        successMessage={trans("Place deleted successfully.")}
+                    />
                 </div>
             )
         }

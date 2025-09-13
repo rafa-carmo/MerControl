@@ -10,7 +10,7 @@ declare module "@inertiajs/core" {
 }
 
 type DefaultModelAttributes = {
-    id: string;
+    id: number;
     created_at: string;
     updated_at: string;
 }

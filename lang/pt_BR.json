@@ -209,6 +209,8 @@
 
   "Purchases": "Compras",
   "Places": "Locais",
+  "Place Name": "Nome do Local",
+  "Business Name": "Nome Fantasia",
   "View Purchases": "Visualizar Compras",
   "Add Purchase": "Adicionar Compra",
   "View Places": "Visualizar Locais",
@@ -275,5 +277,8 @@
     "Created at": "Criado em",
     "Expires at": "Expira em",
     "Pending Scrapings": "Scrapings Pendentes",
-    "No pending scrapings found.": "Nenhum scraping pendente encontrado."
+    "No pending scrapings found.": "Nenhum scraping pendente encontrado.",
+
+    "Are you sure you want to delete this place?": "Tem certeza de que deseja excluir este local?",
+    "Place deleted successfully.": "Local deletado com sucesso."
 }
