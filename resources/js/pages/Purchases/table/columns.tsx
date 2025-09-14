@@ -7,7 +7,7 @@ import { trans } from '../../../composables/translate';
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Payment = {
-    id: string
+    id: number
     amount: number
     total_discount?: number
     total_tax?: number

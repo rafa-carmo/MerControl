@@ -3,8 +3,6 @@ declare namespace App.Models {
         url: string;
         key: string;
         processed: boolean;
-        created_at: string;
-        updated_at: string;
         incrementing: boolean;
         preventsLazyLoading: boolean;
         exists: boolean;
@@ -31,6 +29,7 @@ declare namespace App.Models {
         name: string;
         slug: string;
         purchases: App.Models.PurchaseProduct;
+        unity_type: App.Models.UnityType;
         incrementing: boolean;
         preventsLazyLoading: boolean;
         exists: boolean;

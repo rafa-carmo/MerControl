@@ -1,4 +1,3 @@
-import { Table } from "@tanstack/react-table"
 import {
     ChevronLeft,
     ChevronRight,
@@ -7,31 +6,29 @@ import {
 } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 import { Button } from "../ui/button"
+import { router } from "@inertiajs/react"
 
-interface DataTablePaginationProps<TData> {
-    table: Table<TData>
-}
 
-export function DataTablePagination<TData>({
-    table,
-}: DataTablePaginationProps<TData>) {
+export function DataTablePagination(
+    { current_page, total, per_page, first_page_url, from, last_page_url, next_page_url, path, prev_page_url, to }:
+        // eslint-disable-next-line
+        Paginated<any>) {
     return (
         <div className="flex items-center justify-between px-2">
             <div className="text-muted-foreground flex-1 text-sm">
-                {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                {table.getFilteredRowModel().rows.length} row(s) selected.
+                Showing {from} to {to} of {total} results
             </div>
             <div className="flex items-center space-x-6 lg:space-x-8">
                 <div className="flex items-center space-x-2">
                     <p className="text-sm font-medium">Rows per page</p>
                     <Select
-                        value={`${table.getState().pagination.pageSize}`}
+                        value={`${per_page}`}
                         onValueChange={(value) => {
-                            table.setPageSize(Number(value))
+                            router.visit(path, { data: { perPage: value }, preserveState: true })
                         }}
                     >
                         <SelectTrigger className="h-8 w-[70px]">
-                            <SelectValue placeholder={table.getState().pagination.pageSize} />
+                            <SelectValue placeholder={per_page} />
                         </SelectTrigger>
                         <SelectContent side="top">
                             {[10, 20, 25, 30, 40, 50].map((pageSize) => (
@@ -43,16 +40,15 @@ export function DataTablePagination<TData>({
                     </Select>
                 </div>
                 <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-                    Page {table.getState().pagination.pageIndex + 1} of{" "}
-                    {table.getPageCount()}
+                    Page {current_page} of {Math.ceil(total / per_page)}
                 </div>
                 <div className="flex items-center space-x-2">
                     <Button
                         variant="outline"
                         size="icon"
                         className="hidden size-8 lg:flex"
-                        onClick={() => table.setPageIndex(0)}
-                        disabled={!table.getCanPreviousPage()}
+                        onClick={() => router.visit(first_page_url!)}
+                        disabled={!prev_page_url}
                     >
                         <span className="sr-only">Go to first page</span>
                         <ChevronsLeft />
@@ -61,8 +57,8 @@ export function DataTablePagination<TData>({
                         variant="outline"
                         size="icon"
                         className="size-8"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
+                        onClick={() => router.visit(prev_page_url!)}
+                        disabled={!prev_page_url}
                     >
                         <span className="sr-only">Go to previous page</span>
                         <ChevronLeft />
@@ -71,8 +67,8 @@ export function DataTablePagination<TData>({
                         variant="outline"
                         size="icon"
                         className="size-8"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
+                        onClick={() => router.visit(next_page_url!)}
+                        disabled={!next_page_url}
                     >
                         <span className="sr-only">Go to next page</span>
                         <ChevronRight />
@@ -81,8 +77,8 @@ export function DataTablePagination<TData>({
                         variant="outline"
                         size="icon"
                         className="hidden size-8 lg:flex"
-                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                        disabled={!table.getCanNextPage()}
+                        onClick={() => router.visit(last_page_url!)}
+                        disabled={!next_page_url}
                     >
                         <span className="sr-only">Go to last page</span>
                         <ChevronsRight />

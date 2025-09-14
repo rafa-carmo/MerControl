@@ -36,26 +36,35 @@ class PurchasesApiController extends Controller
             ]);
             $tagIds = [];
             foreach ($validated['tags'] as $tagName) {
-                $tag = \App\Models\Tag::where(['name' => $tagName, 'slug' => Str::slug($tagName)])->firstOrCreate([
-                    'name' => $tagName,
-                ]);
+                $tag = \App\Models\Tag::where(['name' => $tagName, 'slug' => Str::slug($tagName)])->first();
+                if (!$tag) {
+                    $tag = \App\Models\Tag::create([
+                        'name' => $tagName,
+                        'slug' => Str::slug($tagName),
+                    ]);
+                }
                 $tagIds[] = $tag->id;
             }
             $purchase->tags()->sync($tagIds);
 
             foreach ($validated['products'] as $item) {
+                $unityType = \App\Models\UnityType::where('abbreviation', $item['unit'])->first();
+                if (!$unityType) {
+                    $unityType = \App\Models\UnityType::create([
+                        'name' => $item['unit'],
+                        'abbreviation' => $item['unit'],
+                        'type' => 'unit',
+                    ]);
+                }
 
-                $unityType = \App\Models\UnityType::where('abbreviation', $item['unit'])->firstOrCreate([
-                    'name' => $item['unit'],
-                    'type' => $item['unit'],
-                    'abbreviation' => $item['unit'],
-                ]);
 
-
-                $product = \App\Models\Product::where('slug', Str::slug($item['name']))->firstOrCreate([
-                    'name' => $item['name'],
-                    'unity_type_id' => $unityType->id,
-                ]);
+                $product = \App\Models\Product::where('slug', Str::slug($item['name']))->first();
+                if (!$product) {
+                    $product = \App\Models\Product::create([
+                        'name' => $item['name'],
+                        'unity_type_id' => $unityType->id,
+                    ]);
+                }
 
                 \App\Models\PurchaseProduct::create([
                     'purchase_id' => $purchase->id,

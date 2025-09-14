@@ -24,6 +24,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('places', \App\Http\Controllers\PlaceController::class);
     // End Places Routes
 
+    // Start Products Routes
+    Route::resource('products', \App\Http\Controllers\ProductController::class);
+    // End Products Routes
+
     Route::post('/tokens/create', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'generateToken'])->name('tokens.create');
     Route::delete('/tokens/{tokenId}', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'revokeToken'])->name('tokens.revoke');
 });

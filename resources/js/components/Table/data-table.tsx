@@ -21,12 +21,14 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     toolbar?: React.ReactNode
+    paginated?: Paginated<TData>
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
-    toolbar
+    toolbar,
+    paginated
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -81,7 +83,9 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            <DataTablePagination table={table} />
+            {paginated && (
+                <DataTablePagination {...paginated} />
+            )}
         </div>
     )
 }

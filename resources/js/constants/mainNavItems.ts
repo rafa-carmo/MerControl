@@ -3,7 +3,8 @@ import purchases from "@/routes/purchases";
 import places from "@/routes/places";
 
 import { NavItem } from "@/types";
-import { Building, LayoutGrid, ShoppingCart } from "lucide-react";
+import { Apple, Building, LayoutGrid, ShoppingCart } from "lucide-react";
+import products from "@/routes/products";
 
 
 export const mainNavItems: NavItem[] = [
@@ -37,6 +38,20 @@ export const mainNavItems: NavItem[] = [
             {
                 title: 'Add Place',
                 href: places.create().url,
+            },
+        ],
+    },
+    {
+        title: 'Products',
+        icon: Apple,
+        subitems: [
+            {
+                title: 'View Products',
+                href: products.index().url,
+            },
+            {
+                title: 'Add Product',
+                href: products.create().url,
             },
         ],
     }

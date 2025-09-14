@@ -3,17 +3,12 @@ import AppLayout from "@/layouts/app-layout";
 import { Head } from "@inertiajs/react";
 import { DataTable } from "../../components/Table/data-table";
 import { columns } from "./table/columns";
+import { formatToUtc } from "@/utils/date";
 
 const breadcrumbs = [
     { title: "Dashboard", href: "/" },
     { title: "Purchases", href: "/purchases" },
 ];
-
-function formatToUtc(date: string): string {
-    const localDate = new Date(date);
-    const utcDate = new Date(localDate.getTime() + localDate.getTimezoneOffset() * 60000);
-    return utcDate.toISOString();
-}
 
 export default function PurchasesIndex({ purchases }: { purchases?: Purchase[] }) {
 

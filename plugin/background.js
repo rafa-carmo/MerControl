@@ -281,7 +281,7 @@ function extractPageData() {
                 name: matches[1].trim(),
                 description: matches[1].trim(),
                 quantity: parseFloat(matches[3].replace(",", ".")),
-                unit: matches[4].toLowerCase(),
+                unit: matches[5].toLowerCase().replace("vl", ""),
                 unit_price: parseFloat(matches[6].replace(",", ".")),
                 total_price: parseFloat(matches[7].replace(",", "."))
             });

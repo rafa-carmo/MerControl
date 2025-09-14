@@ -12,6 +12,7 @@ class Product extends Model
     public string $name;
     public string $slug;
     public PurchaseProduct $purchases;
+    public UnityType $unity_type;
 
     protected $fillable = [
         'barcode',
@@ -23,8 +24,6 @@ class Product extends Model
     {
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = Str::slug($value);
-        $this->attributes['created_at'] = now();
-        $this->attributes['updated_at'] = now();
     }
 
 
@@ -32,5 +31,10 @@ class Product extends Model
     public function purchases()
     {
         return $this->hasMany(PurchaseProduct::class);
+    }
+
+    public function unityType()
+    {
+        return $this->belongsTo(UnityType::class);
     }
 }

@@ -39,7 +39,7 @@ export const columns: ColumnDef<Place>[] = [
     },
     {
         accessorKey: "created_at",
-        header: () => <p>{trans("Date")}</p>,
+        header: () => <p>{trans("Created at")}</p>,
         cell: ({ row }) => {
             const createdAt = row.getValue("created_at") as Date
             return <div className="text-start text-xs md:text-base">{createdAt.toLocaleDateString() ?? "-"}</div>
