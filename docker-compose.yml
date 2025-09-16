@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Docker/8/Dockerfile
+      args:
+        WWWGROUP: '${WWWGROUP}'
+    container_name: app
+    ports:
+      - '${APP_PORT:-8000}:80'
+    environment:
+      WWWUSER: '${WWWUSER}'
+      WWWGROUP: '${WWWGROUP}'
+    restart: unless-stopped
+    networks:
+        - app
+    volumes:
+        - ./storage:/var/www/html/storage
+
+networks:
+    app:
+        driver: bridge

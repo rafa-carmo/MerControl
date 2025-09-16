@@ -14,7 +14,7 @@ export default function AuthSimpleLayout({ children, title, description }: Props
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10 ">
-            <div className="w-full grid lg:grid-cols-2 md:gap-5 px-10 md:px-5 place-items-center">
+            <div className="w-full grid lg:grid-cols-2 md:gap-5 px-3 md:px-5 place-items-center">
                 <div className="flex flex-col gap-8 bg-primary-foreground pb-10 pt-4 px-10 rounded-lg md:w-lg lg:w-3/4">
                     <div className="flex flex-col items-center gap-4">
                         <Link href={home()} className="flex items-center justify-start gap-5 font-medium w-full">
