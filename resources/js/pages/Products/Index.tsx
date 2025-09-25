@@ -12,7 +12,6 @@ const breadcrumbs = [
 
 
 export default function ProductsIndex({ products }: { products?: Paginated<Product> }) {
-    console.log(products);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={trans("Products")} />

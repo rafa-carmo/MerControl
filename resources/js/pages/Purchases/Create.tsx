@@ -37,14 +37,13 @@ function handleCreateTag(value: string): Promise<{ data: Tag }> {
 }
 
 export default function Create({ tags, places, unityTypes }: { tags: Tag[], places: Place[], unityTypes: UnityType[] }) {
-    const { data, setData, post, errors } = useForm({
+    const { data, setData, post } = useForm({
         place: "",
         date: new Date(),
         tag: "",
         items: [] as PurchaseItem[],
     })
     const [tagsState, setTagsState] = useState<Tag[]>(tags);
-    console.error(errors)
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
