@@ -13,7 +13,7 @@ class PurchasesApiController extends Controller
 {
     public function index(Request $request)
     {
-        $purchases = \App\Models\Purchase::query()->with(['place', 'products']);
+        $purchases = \App\Models\Purchase::query()->with(['place', 'products'])->orderBy('date', 'desc');
 
         return response()->json(PurchaseResource::collection($purchases->get()));
 
