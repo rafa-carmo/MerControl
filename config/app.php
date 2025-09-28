@@ -43,6 +43,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application allow registration
+    |--------------------------------------------------------------------------
+    | This value determines if user registration is allowed.
+    | You may set this in your ".env" file.
+    |
+    */
+    'allow_registration' => (bool) env('APP_ALLOW_REGISTRATION', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
