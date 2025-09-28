@@ -7,14 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 /** @typescript */
 class Purchase extends Model
 {
-    public string $date;
-    /** @var PurchaseProduct[] */
-    public array $products;
-    public Place $place;
-    public Tag $tags;
-    public int $total_tax;
-    public int $total_discount;
-
     protected $fillable = [
         'date',
         'key',

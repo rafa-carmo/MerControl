@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreatePurchaseRequest;
+use App\Http\Resources\PurchaseResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class PurchasesApiController extends Controller
 {
+    public function index(Request $request)
+    {
+        $purchases = \App\Models\Purchase::query()->with(['place', 'products']);
+
+        return response()->json(PurchaseResource::collection($purchases->get()));
+
+    }
     public function store(CreatePurchaseRequest $request)
     {
         $validated = $request->validated();

@@ -11,7 +11,7 @@ class NfceScanApiController extends Controller
     public function scan(Request $request)
     {
         $data = $request->validate([
-            'url' => 'required|url',
+            'url' => 'required|string',
         ]);
 
         $rawValue = $data['url'];
