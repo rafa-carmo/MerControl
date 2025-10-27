@@ -1,7 +1,7 @@
-import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
+import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, useSidebar } from '@/components/ui/sidebar'
 import { trans } from '@/composables/translate'
 import { type NavItem } from '@/types'
-import { Link, usePage } from '@inertiajs/react'
+import { Link } from '@inertiajs/react'
 import { Command, CommandGroup, CommandInput, CommandItem } from './ui/command'
 
 function HasSubitems({ has, href, children }: { has: boolean, href?: string, children: React.ReactNode }) {
@@ -13,8 +13,7 @@ function HasSubitems({ has, href, children }: { has: boolean, href?: string, chi
 }
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
-    const page = usePage();
-
+    const { open } = useSidebar()
     return (
         <SidebarGroup className="px-2 py-0">
             <SidebarGroupLabel>{trans('Platform')}</SidebarGroupLabel>
@@ -27,19 +26,22 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                         <CommandGroup className='[&_[cmdk-group-heading]]:px-0 ' key={item.title}
                             heading={
                                 <HasSubitems has={item.subitems && item.subitems.length > 0 || true} href={item.href?.url}>
-                                    <SidebarMenuButton className='px-2' tooltip={{ children: trans(item.title) }}>
-                                        {item.icon && <item.icon />}
-                                        {trans(item.title)}
-                                    </SidebarMenuButton>
+                                    <Link href={item.subitems ? item.subitems[0].href : item.href?.url} prefetch>
+                                        <SidebarMenuButton className='px-2' tooltip={{ children: trans(item.title) }}>
+                                            {item.icon && <item.icon />}
+                                            {trans(item.title)}
+                                        </SidebarMenuButton>
+                                    </Link>
                                 </HasSubitems>
                             }>
                             {item.subitems && item.subitems.length > 0 && (
                                 item.subitems.map((subitem) => (
-                                    <CommandItem key={subitem.title}>
+                                    <CommandItem key={subitem.title} className={`${open ? 'w-full px-2' : 'hidden'}`}>
                                         <SidebarMenuButton
                                             asChild
                                             // isActive={page.url.startsWith(typeof subitem.href === 'string' ? subitem.href : subitem.href.url)}
                                             tooltip={{ children: trans(subitem.title) }}
+
                                         >
                                             <Link href={subitem.href} prefetch>
                                                 {subitem.icon && <subitem.icon />}
@@ -56,6 +58,6 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
 
 
             </SidebarMenu>
-        </SidebarGroup>
+        </SidebarGroup >
     );
 }

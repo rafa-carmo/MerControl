@@ -18,6 +18,7 @@ class Product extends Model
         'barcode',
         'name',
         'unity_type_id',
+        'product_group_id',
     ];
 
     public function setNameAttribute($value)
