@@ -267,38 +267,39 @@ function extractPageData() {
             date = null;
         }
 
-        // Regex para extrair produtos
-        const pattern = /^(.*?)\(Código:(\d+)\)Qtde\.:(\d+(?:,\d+)?)([A-Z]+): (UNVl|KGVl)\. Unit\.: (\d+(?:,\d+)?)Vl\. Total(\d+(?:,\d+)?)/;
 
         // Extrair produtos
         const items = [];
         const rows = document.querySelectorAll("tr");
+        function splitProduct(productText) {
+            if(!productText || typeof productText !== "string") return [];
+        productText = productText.replace(/\u00A0/g, " ").replace(/\n/g, "").replace(/\t/g, "").trim();
+        productText = productText.replace("(Código:", "=").replace(")Qtde.:", "=").replace("UN:", "=").replace("Vl. Unit.:", "=").replace("Vl. Total", "=");
+        return productText.split("=").map(part => part.trim());
+    }
         rows.forEach(node => {
             let text = node.textContent.replace(/\u00A0/g, " ").replace(/\n/g, "").replace(/\t/g, "").trim();
-            let matches = text.match(pattern);
-            if (matches) {
+            if(!text.includes("Código")) {
+                console.log("Cabeçalho ignorado");
+                return;
+            };
+
+            const prod = splitProduct(text);
+            if(!prod) {
+                return;
+            }
+
             items.push({
-                name: matches[1].trim(),
-                description: matches[1].trim(),
-                quantity: parseFloat(matches[3].replace(",", ".")),
-                unit: matches[5].toLowerCase().replace("vl", ""),
-                unit_price: parseFloat(matches[6].replace(",", ".")),
-                total_price: parseFloat(matches[7].replace(",", "."))
+                name: prod[0].trim(),
+                description: prod[0].trim(),
+                quantity: parseFloat(prod[2].replace(",", ".")),
+                unit: prod[3].toLowerCase(),
+                unit_price: parseFloat(prod[4].replace(",", ".")),
+                total_price: parseFloat(prod[5].replace(",", "."))
             });
-            }
-            if(items.length > 0) return; // Se já encontrou um item, não tenta o segundo padrão
-            const pattern2 = /^(.*?)\(Código:(\d+)\)Qtde\.:(\d+(?:,\d+)?)UN:\s*([A-Z]+)Vl\. Unit\.: (\d+(?:,\d+)?)Vl\. Total(\d+(?:,\d+)?)/;
-            let matches2 = text.match(pattern2);
-            if (matches2) {
-                items.push({
-                    name: matches2[1].trim(),
-                    description: matches2[1].trim(),
-                    quantity: parseFloat(matches2[2].replace(",", ".")),
-                    unit: matches2[3].toLowerCase(),
-                    unit_price: parseFloat(matches2[5].replace(",", ".")),
-                    total_price: parseFloat(matches2[6].replace(",", "."))
-                });
-            }
+            return
+
+
         });
 
         // Adicionar ao objeto data
@@ -318,5 +319,6 @@ function extractPageData() {
             extractedAt: new Date().toISOString()
         };
     }
-}
+    }
+
 
