@@ -24,6 +24,13 @@ declare global {
     type Product = App.Models.Product & DefaultModelAttributes;
     type PurchaseProduct = App.Models.PurchaseProduct & DefaultModelAttributes;
     type PendingScraping = App.Models.PendingScraping & DefaultModelAttributes;
+    type FinancialFlow = App.Models.FinancialFlow & DefaultModelAttributes;
+    type FinancialLaunch = App.Models.FinancialLaunch & DefaultModelAttributes;
+    type ExpenseType = App.Models.ExpenseType & DefaultModelAttributes;
+    type RevenueType = App.Models.RevenueType & DefaultModelAttributes;
+    type PaymentMethod = App.Models.PaymentMethod & DefaultModelAttributes;
+    type Expense = App.Models.Expense & DefaultModelAttributes;
+    type Revenue = App.Models.Revenue & DefaultModelAttributes;
 
 
     type Paginated<T> = {
