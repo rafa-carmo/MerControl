@@ -22,12 +22,24 @@ class ExpenseController extends Controller
     {
         $perPage = $request->input('perPage', 20);
 
+        $paymentMethods = PaymentMethod::orderBy('name')->get();
+        $expenseTypes = ExpenseType::orderBy('name')->get();
 
         $query = Expense::query();
         if ($financialLaunch) {
             $query->where('financial_launch_id', $financialLaunch->id);
         }
+         if ($request->filled('description')) {
+            $query->where('description', 'like', "%{$request->input('description')}%");
+        }
+        if ($request->filled('payment_method_id') && strtolower((string) $request->input('payment_method_id')) !== 'todos') {
+            $query->where('payment_method_id', $request->input('payment_method_id'));
+        }
+         if ($request->filled('expense_type_id') && strtolower((string) $request->input('expense_type_id')) !== 'todos') {
+            $query->where('expense_type_id', $request->input('expense_type_id'));
+        }
 
+   
 
         $expenses = $query->with(['expenseType', 'paymentMethod'])->orderBy('id', 'desc')
             ->paginate($perPage)
@@ -39,6 +51,9 @@ class ExpenseController extends Controller
             'expenses' => $expenses,
             'financial_launch_id' => $financialLaunch ? $financialLaunch->id : null,
             'financial_flow_id' => $financialFlow ? $financialFlow->id : null,
+            'filters' => $request->only(['description', 'payment_method_id']),
+            'paymentMethods' => $paymentMethods,
+            'expenseTypes' => $expenseTypes,
         ]);
     }
 
@@ -106,6 +121,9 @@ class ExpenseController extends Controller
         $remaining = $expense->value - ($valuePerInstallment * $installmentsQuantity);
         $affectedMonths = [];
 
+        if ($expense->date_expense >= $creditCard->invoice_closing_date) {
+            // code...
+        
         for ($i = 1; $i <= $installmentsQuantity; $i++) {
             $billDate = $expenseDate->copy()->addDays(30 * $i);
 
@@ -129,6 +147,36 @@ class ExpenseController extends Controller
             // collect affected month (YYYY-MM-01) to recalculate launches later
             $monthKey = $billDate->copy()->startOfMonth()->toDateString();
             $affectedMonths[$monthKey] = $monthKey;
+        }
+        } else {
+            // if expense date is before closing date, first installment goes to current month bill, others to next months
+        
+            for ($i = 1; $i <= $installmentsQuantity; $i++) {
+                for ($i = 1; $i <= $installmentsQuantity; $i++) {
+            $billDate = $expenseDate->copy()->addDays(1 * $i);
+
+            $bill = CreditCardBill::create([
+                'credit_card_id' => $creditCard->id,
+                'reference_date' => $billDate->toDateString(),
+            ]);
+
+            $installmentValue = $valuePerInstallment;
+            if ($i === $installmentsQuantity) {
+                $installmentValue += $remaining;
+            }
+
+            PaymentInstallment::create([
+                'expense_id' => $expense->id,
+                'installment_number' => $i,
+                'installment_value' => $installmentValue,
+                'credit_card_bill_id' => $bill->id,
+            ]);
+
+            // collect affected month (YYYY-MM-01) to recalculate launches later
+            $monthKey = $billDate->copy()->startOfMonth()->toDateString();
+            $affectedMonths[$monthKey] = $monthKey;
+            }
+            }
         }
 
         // trigger recalculation for each affected FinancialLaunch (if exists)

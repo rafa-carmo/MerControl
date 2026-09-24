@@ -6,6 +6,7 @@ declare module "@inertiajs/core" {
 	interface PageProps extends InertiaPageProps, AppPageProps {
         name?: string;
         translations: Record<string, string>;
+        filters?: Record<string, string | undefined>;
     }
 }
 

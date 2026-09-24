@@ -23,6 +23,12 @@ class RevenueController extends Controller
         if ($financialLaunch) {
             $query->where('financial_launch_id', $financialLaunch->id);
         }
+        if ($request->filled('description')) {
+            $query->where('description', 'like', "%{$request->input('description')}%");
+        }
+
+        // $query = Revenue::where('financial_launch_id', $financialLaunch->id);
+
 
         $revenues = $query->orderBy('id', 'desc')
             ->paginate($perPage)
@@ -32,6 +38,7 @@ class RevenueController extends Controller
             'revenues' => $revenues,
             'financial_launch_id' => $financialLaunch ? $financialLaunch->id : null,
             'financial_flow_id' => $financialFlow ? $financialFlow->id : null,
+            'filters' => $request->only('description'),
         ]);
     }
 

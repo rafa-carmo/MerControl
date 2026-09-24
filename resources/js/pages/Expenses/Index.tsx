@@ -16,12 +16,21 @@ import { dashboard } from "@/routes";
 const breadcrumbs = (financial_launch_id: number, financial_flow_id: number) => [
     { title: "Dashboard", href: dashboard.url() },
     { title: "Financial Flows", href: financialFlows.index().url },
-    { title: "Financial Launches", href: financialLaunchesRoutes.index({ financial_flow:  financial_flow_id  }).url },
+    { title: "Financial Launches", href: financialLaunchesRoutes.index({ financial_flow: financial_flow_id }).url },
     { title: "Expenses", href: expensesRoutes.index({ financial_flow: financial_flow_id, financial_launch: financial_launch_id }).url },
 ];
 
+const filters = [
+    {
+        name: 'description',
+        label: 'Descrição',
+        placeholder: 'Filtrar por descrição',
+        className: 'w-full',
+    },
+];
 
-export default function ExpensesIndex({ expenses, financial_launch_id, financial_flow_id }: { expenses?: Paginated<Expense>, financial_launch_id: number, financial_flow_id: number }) {
+
+export default function ExpensesIndex({ expenses, financial_launch_id, financial_flow_id, paymentMethods, expenseTypes }: { expenses?: Paginated<Expense>, financial_launch_id: number, financial_flow_id: number, paymentMethods: PaymentMethod[], expenseTypes: ExpenseType[] }) {
 
     const createHref = expensesRoutes.create({ financial_flow: financial_flow_id, financial_launch: financial_launch_id }).url;
     console.log(expenses);
@@ -46,6 +55,30 @@ export default function ExpensesIndex({ expenses, financial_launch_id, financial
                         financial_flow_id: financial_flow_id
                     })) ?? []}
                     paginated={expenses}
+                    filters={[
+                        ...filters,
+                        {
+                            name: 'payment_method_id',
+                            label: 'Método de Pagamento',
+                            placeholder: 'Filtrar por método de pagamento',
+                            type: 'select',
+                            options: paymentMethods.map((method) => ({
+                                label: method.name,
+                                value: method.id.toString(),
+                            })),
+                        },
+                        {
+                            name: 'expense_type_id',
+                            label: 'Tipo de Saída',
+                            placeholder: 'Filtrar por tipo de saída',
+                            type: 'select',
+                            options: expenseTypes.map((type) => ({
+                                label: type.name,
+                                value: type.id.toString(),
+                            })),
+                        },
+                     
+                    ]}
                 />
             </div>
 

@@ -19,6 +19,15 @@ const breadcrumbs = (financial_launch_id: number, financial_flow_id: number) => 
     { title: "Revenues", href: revenueRoutes.index({ financial_flow: financial_flow_id, financial_launch: financial_launch_id }).url },
 ];
 
+const filters = [
+    {
+        name: 'description',
+        label: '',
+        placeholder: 'Filtrar por descrição',
+        className: 'w-full',
+    },
+];
+
 
 export default function RevenuesIndex({ revenues, financial_launch_id, financial_flow_id }: { revenues?: Paginated<Revenue>, financial_launch_id: number, financial_flow_id: number }) {
 
@@ -44,6 +53,7 @@ export default function RevenuesIndex({ revenues, financial_launch_id, financial
                         financial_flow_id: financial_flow_id
                     })) ?? []}
                     paginated={revenues}
+                    filters={filters}
                 />
             </div>
 
