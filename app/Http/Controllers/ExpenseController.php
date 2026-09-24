@@ -22,12 +22,24 @@ class ExpenseController extends Controller
     {
         $perPage = $request->input('perPage', 20);
 
+        $paymentMethods = PaymentMethod::orderBy('name')->get();
+        $expenseTypes = ExpenseType::orderBy('name')->get();
 
         $query = Expense::query();
         if ($financialLaunch) {
             $query->where('financial_launch_id', $financialLaunch->id);
         }
+         if ($request->filled('description')) {
+            $query->where('description', 'like', "%{$request->input('description')}%");
+        }
+        if ($request->filled('payment_method_id') && strtolower((string) $request->input('payment_method_id')) !== 'todos') {
+            $query->where('payment_method_id', $request->input('payment_method_id'));
+        }
+         if ($request->filled('expense_type_id') && strtolower((string) $request->input('expense_type_id')) !== 'todos') {
+            $query->where('expense_type_id', $request->input('expense_type_id'));
+        }
 
+   
 
         $expenses = $query->with(['expenseType', 'paymentMethod'])->orderBy('id', 'desc')
             ->paginate($perPage)
@@ -39,6 +51,9 @@ class ExpenseController extends Controller
             'expenses' => $expenses,
             'financial_launch_id' => $financialLaunch ? $financialLaunch->id : null,
             'financial_flow_id' => $financialFlow ? $financialFlow->id : null,
+            'filters' => $request->only(['description', 'payment_method_id']),
+            'paymentMethods' => $paymentMethods,
+            'expenseTypes' => $expenseTypes,
         ]);
     }
 
