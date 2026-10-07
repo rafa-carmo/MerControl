@@ -25,9 +25,18 @@ class DashboardController extends Controller
         $month = (int) ($filters['month'] ?? now()->month);
         $start = Carbon::create($year, 1, 1)->startOfDay();
         $selected = Carbon::create($year, $month, 1)->startOfDay();
-        $expenses = Expense::with(['expenseType:id,name', 'paymentMethod:id,name'])
-            ->whereDoesntHave('paymentInstallments')
-            ->whereBetween('date_expense', [$start->toDateString(), $start->copy()->endOfYear()->toDateString()])->get();
+        $expenses = Expense::with(['expenseType:id,name', 'paymentMethod:id,name', 'financialLaunch:id,month'])
+            ->whereHas('paymentMethod', fn ($query) => $query->where('name', '<>', 'Cartão de Crédito'))
+            ->whereHas('financialLaunch', fn ($query) => $query->whereBetween('month', [
+                $start->toDateString(), $start->copy()->endOfYear()->toDateString(),
+            ]))->get();
+        // Non-card expenses belong to the launch month, as in the launch index.
+        // Keep the purchase day for daily charts, clamped to the target month.
+        foreach ($expenses as $expense) {
+            $launchMonth = Carbon::parse($expense->financialLaunch->month)->startOfMonth();
+            $day = Carbon::parse($expense->date_expense)->day;
+            $expense->date_expense = $launchMonth->day(min($day, $launchMonth->daysInMonth))->toDateString();
+        }
         // Use the persisted bill date, as the financial launch totals do.
         // A purchase from a previous month or year can belong to this year's bills.
         $installments = PaymentInstallment::with(['expense.expenseType:id,name', 'expense.paymentMethod:id,name', 'creditCardBill'])

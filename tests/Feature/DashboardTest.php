@@ -13,18 +13,24 @@ test('authenticated users can visit the dashboard', function () {
 
     $this->get(route('dashboard'))->assertOk();
 });
-test('dashboard groups purchases by date and revenues by launch month', function () {
+test('dashboard groups non-card expenses and revenues by launch month', function () {
     $this->actingAs(User::factory()->create());
     $db = \Illuminate\Support\Facades\DB::class;
     $flow = $db::table('financial_flows')->insertGetId(['year' => 2024]);
     $launch = $db::table('financial_launches')->insertGetId(['financial_flow_id' => $flow, 'month' => '2024-02-01']);
     $type = $db::table('expense_types')->insertGetId(['name' => 'Alimentação']);
-    $payment = $db::table('payment_methods')->insertGetId(['name' => 'Cartão de Crédito']);
+    $payment = $db::table('payment_methods')->insertGetId(['name' => 'Pix']);
     $revenueType = $db::table('revenue_types')->insertGetId(['name' => 'Salário']);
     $db::table('revenues')->insert(['financial_launch_id' => $launch, 'revenue_type_id' => $revenueType, 'value' => 1000]);
     foreach ([['2024-02-01', 10.10], ['2024-02-04', 20.20], ['2024-02-05', 30.30], ['2024-02-29', 40.40], ['2024-03-01', 50], ['2023-02-01', 900]] as [$date, $value]) {
+        $expenseLaunch = $launch;
+        if (substr($date, 0, 7) !== '2024-02') {
+            $expenseLaunch = $db::table('financial_launches')->insertGetId([
+                'financial_flow_id' => $flow, 'month' => substr($date, 0, 7).'-01',
+            ]);
+        }
         $db::table('expenses')->insert([
-            'financial_launch_id' => $launch, 'expense_type_id' => $type,
+            'financial_launch_id' => $expenseLaunch, 'expense_type_id' => $type,
             'payment_method_id' => $payment, 'date_expense' => $date, 'value' => $value,
         ]);
     }
@@ -100,7 +106,10 @@ test('july includes a june credit purchase billed in july and agrees with financ
     $expense = $db::table('expenses')->insertGetId(['financial_launch_id' => $june, 'expense_type_id' => $type, 'payment_method_id' => $credit, 'date_expense' => '2026-06-15', 'value' => 100]);
     $bill = $db::table('credit_card_bills')->insertGetId(['credit_card_id' => $card, 'reference_date' => '2026-07-23']);
     $db::table('payment_installments')->insert(['expense_id' => $expense, 'credit_card_bill_id' => $bill, 'installment_number' => 1, 'installment_value' => 100]);
-    $db::table('expenses')->insert(['financial_launch_id' => $july, 'expense_type_id' => $type, 'payment_method_id' => $cash, 'date_expense' => '2026-07-23', 'value' => 100]);
+    // The launch month takes precedence over the purchase date for non-card expenses.
+    $db::table('expenses')->insert(['financial_launch_id' => $july, 'expense_type_id' => $type, 'payment_method_id' => $cash, 'date_expense' => '2025-06-23', 'value' => 100]);
+    // A credit purchase without installments must not count as a non-card expense.
+    $db::table('expenses')->insert(['financial_launch_id' => $july, 'expense_type_id' => $type, 'payment_method_id' => $credit, 'date_expense' => '2026-07-23', 'value' => 500]);
     $this->get(route('dashboard', ['month' => 7, 'year' => 2026]))
         ->assertInertia(fn (\Inertia\Testing\AssertableInertia $page) => $page
             ->where('summary.expenses', 200)->where('summary.balance', -200)
